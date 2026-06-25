@@ -36,7 +36,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             background: var(--card-bg);
             padding: 20px;
             border-radius: 15px;
@@ -58,6 +58,39 @@
             font-size: 1.1rem;
         }
 
+        /* Intro Section Details */
+        .intro-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-top: 6px solid var(--primary);
+            line-height: 1.6;
+        }
+
+        .intro-card h2 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 10px;
+        }
+
+        .intro-card h3 {
+            color: var(--secondary);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .intro-card ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+
+        .intro-card li {
+            margin-bottom: 8px;
+        }
+
         /* Progress Bar */
         .progress-container {
             background: #e2e8f0;
@@ -65,6 +98,10 @@
             height: 12px;
             margin-top: 20px;
             overflow: hidden;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .progress-bar {
@@ -84,6 +121,7 @@
             border-left: 6px solid #cbd5e0;
             transition: all 0.4s ease;
             position: relative;
+            margin-top: 20px;
         }
 
         .step-card.active {
@@ -248,6 +286,23 @@
             background-color: #fff5f5;
         }
 
+        a.launch-sim-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+
+        a.launch-sim-btn:hover {
+            background-color: #1a4731;
+        }
+
         /* Responsive Grid */
         @media (max-width: 600px) {
             .media-grid {
@@ -265,11 +320,45 @@
         <header>
             <h1>🌿 SereneScalpel</h1>
             <p>Virtual Desensitization Protocol for Biological Labs</p>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
         </header>
 
+        <!-- INTRODUCTORY SECTION -->
+        <div class="intro-card">
+            <h2>About SereneScalpel</h2>
+            
+            <h3>1. Problem Statement</h3>
+            <p>Despite the critical role of practical laboratory sessions in biology education, a significant number of secondary and university students experience disruptive anxiety when handling biological specimens or performing dissections. This psychological barrier manifests behaviorally through lab avoidance and cognitively by inducing panic, which increases cognitive load and severely impedes the processing of essential biological information. Traditional pedagogical approaches often fail to address the affective domain of learning, leaving anxious students without systematic support to overcome their fears. Consequently, there is a critical need for an intervention that integrates psychological desensitization techniques with educational technology to gradually reduce anxiety, enabling students to independently apply emotional self-regulation and confidently participate in physical laboratory environments.</p>
+
+            <h3>2. Learning Objectives</h3>
+            <ul>
+                <li>To enable students to perform dissections and handling procedures without disruptive anxiety.</li>
+                <li>To equip students with the ability to independently apply emotional self-regulation techniques in high-stress environments.</li>
+            </ul>
+
+            <h3>3. Methodology: The Anxiety Hierarchy</h3>
+            <p>Outline of the gradual exposure protocol to demonstrate how the digital-hybrid tool is implemented in a classroom setting:</p>
+            <ul>
+                <li><strong>Step 1 (Relaxation):</strong> Utilizing a web-based audio guide to teach deep breathing and muscle relaxation.</li>
+                <li><strong>Step 2 (Lowest Anxiety):</strong> Viewing illustrated, non-threatening anatomical diagrams while practicing breathing techniques.</li>
+                <li><strong>Step 3 (Moderate Anxiety):</strong> Watching a silent, clinical video of the procedure, where progression requires complete relaxation.</li>
+                <li><strong>Step 4 (High Anxiety):</strong> Engaging with an interactive digital simulation that requires clicking to make virtual incisions.</li>
+                <li><strong>Step 5 (Target Behavior):</strong> Approaching the physical lab station in the real world utilizing the practiced self-talk and breathing techniques.</li>
+            </ul>
+
+            <h3>4. Educational Impact</h3>
+            <ul>
+                <li><strong>Behavioral:</strong> Reduces instances of lab avoidance and skipping.</li>
+                <li><strong>Cognitive:</strong> Removes panic-induced cognitive load, which allows for effective biological information processing.</li>
+                <li><strong>Emotional:</strong> Builds immense confidence in students by helping them overcome psychological barriers.</li>
+            </ul>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <!-- Step 1: Relaxation -->
         <div class="step-card active" id="step-1">
             <div class="step-header">
                 <div class="step-title">Step 1: Relaxation Training</div>
@@ -285,6 +374,7 @@
             <button class="action-btn" onclick="completeStep(1)">I am Relaxed & Ready</button>
         </div>
 
+        <!-- Step 2: Low Anxiety -->
         <div class="step-card locked" id="step-2">
             <div class="step-header">
                 <div class="step-title">Step 2: Anatomical Overview</div>
@@ -295,11 +385,13 @@
                 <div class="media-grid">
                     <div class="media-item">
                         <h4>Frog Anatomy Diagram</h4>
-                        <img src="./ANATOMI_KATAK.jpg" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
+                        <!-- Updated strict file names based on user input -->
+                        <img src="./ANATOMI_KATAK.jpg.jpg" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
                     </div>
                     <div class="media-item">
                         <h4>Rat Anatomy Diagram</h4>
-                        <img src="./ANATOMI_TIKUS.webp" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
+                        <!-- Updated strict file names based on user input -->
+                        <img src="./ANATOMI_TIKUS.webp.webp" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
                     </div>
                 </div>
             </div>
@@ -309,6 +401,7 @@
             </div>
         </div>
 
+        <!-- Step 3: Moderate Anxiety -->
         <div class="step-card locked" id="step-3">
             <div class="step-header">
                 <div class="step-title">Step 3: Clinical Observation</div>
@@ -333,14 +426,21 @@
             </div>
         </div>
 
+        <!-- Step 4: High Anxiety (Interactive Web App) -->
         <div class="step-card locked" id="step-4">
             <div class="step-header">
                 <div class="step-title">Step 4: Virtual Dissection Simulator</div>
                 <div class="badge">High Exposure</div>
             </div>
-            <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab.</p>
-            <div class="content-area" style="padding: 0; overflow: hidden; border: 2px solid #e2e8f0; border-radius: 8px;">
-                <iframe src="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" style="width: 100%; height: 600px; border: none; background: #fff;" title="Virtual Dissection Interactive" id="interactive-sim"></iframe>
+            <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab. The simulation will open safely in a new tab.</p>
+            <div class="content-area" style="padding: 30px; border: 2px dashed #cbd5e0; border-radius: 8px; background-color: #fff;">
+                
+                <!-- Replaced broken iframe with an external launch button -->
+                <a href="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" target="_blank" class="launch-sim-btn">
+                    🚀 Launch LabXchange Simulator
+                </a>
+                <p style="font-size: 0.9rem; color: #718096; margin-top: 0;"><em>(Opens in a new tab. Return here once you have finished the virtual incision.)</em></p>
+                
             </div>
             <div class="btn-group">
                 <label style="display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 10px; cursor: pointer;">
@@ -352,6 +452,7 @@
             </div>
         </div>
 
+        <!-- Step 5: Target Behavior -->
         <div class="step-card locked" id="step-5">
             <div class="step-header">
                 <div class="step-title">Step 5: Physical Lab Station</div>
@@ -396,7 +497,10 @@
                 nextCard.classList.add('active');
                 
                 setTimeout(() => {
-                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Scroll so the top of the next card is slightly below the sticky progress bar
+                    const yOffset = -60; 
+                    const y = nextCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
                 }, 300);
             }
 
@@ -406,7 +510,10 @@
         // Emergency Return to Breathing Logic
         function returnToBreathing() {
             const step1 = document.getElementById('step-1');
-            step1.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            const yOffset = -60; 
+            const y = step1.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
             
             const circle = document.getElementById('breath-circle');
             circle.style.boxShadow = "0 0 30px #38a169";
