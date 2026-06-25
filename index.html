@@ -19,7 +19,7 @@
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg-color);
-            background-image: radial-gradient(#c6f6d5 1px, transparent 1px); /* Subtle cell/dot pattern */
+            background-image: radial-gradient(#c6f6d5 1px, transparent 1px);
             background-size: 20px 20px;
             color: var(--text-main);
             margin: 0;
@@ -158,8 +158,9 @@
 
         .media-item img, .media-item iframe {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 250px;
+            object-fit: contain;
+            background-color: #fff;
             border-radius: 8px;
             border: 2px solid #e2e8f0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -252,7 +253,7 @@
             .media-grid {
                 grid-template-columns: 1fr;
             }
-            .media-item iframe {
+            .media-item iframe, .media-item img {
                 height: 250px;
             }
         }
@@ -294,11 +295,11 @@
                 <div class="media-grid">
                     <div class="media-item">
                         <h4>Frog Anatomy Diagram</h4>
-                        <img src="https://drive.google.com/uc?export=view&id=1iX7C5jN_prDh0TXVoDY2GK8_uNG6saX3" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x200?text=Frog+Diagram+Load+Error'">
+                        <img src="./ANATOMI_KATAK.jpg" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
                     </div>
                     <div class="media-item">
                         <h4>Rat Anatomy Diagram</h4>
-                        <img src="https://drive.google.com/uc?export=view&id=1AekgYREbRVyMOj_gfHJGF5vFwptDc3Qy" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x200?text=Rat+Diagram+Load+Error'">
+                        <img src="./ANATOMI_TIKUS.webp" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
                     </div>
                 </div>
             </div>
@@ -338,8 +339,8 @@
                 <div class="badge">High Exposure</div>
             </div>
             <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab.</p>
-            <div class="content-area" style="padding: 0; overflow: hidden; border: 2px solid #e2e8f0;">
-                <iframe src="https://scratch.mit.edu/projects/1234567/embed" style="width: 100%; height: 450px; border: none; background: #2d3748;" title="Virtual Dissection Interactive" id="interactive-sim"></iframe>
+            <div class="content-area" style="padding: 0; overflow: hidden; border: 2px solid #e2e8f0; border-radius: 8px;">
+                <iframe src="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" style="width: 100%; height: 600px; border: none; background: #fff;" title="Virtual Dissection Interactive" id="interactive-sim"></iframe>
             </div>
             <div class="btn-group">
                 <label style="display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 10px; cursor: pointer;">
@@ -371,12 +372,10 @@
 
         // Handle Step Progression
         function completeStep(currentStep) {
-            // Mark current as completed
             const currentCard = document.getElementById('step-' + currentStep);
             currentCard.classList.remove('active');
             currentCard.classList.add('completed');
             
-            // Update button UI
             const btn = currentCard.querySelector('.action-btn');
             if (btn) {
                 btn.innerText = "Completed ✓";
@@ -384,13 +383,11 @@
                 btn.style.backgroundColor = "var(--success)";
             }
 
-            // Hide emergency button on completed steps to clean up UI
             const emergencyBtn = currentCard.querySelector('.emergency-btn');
             if (emergencyBtn) {
                 emergencyBtn.style.display = 'none';
             }
 
-            // Unlock next step
             const nextStep = currentStep + 1;
             const nextCard = document.getElementById('step-' + nextStep);
             
@@ -398,7 +395,6 @@
                 nextCard.classList.remove('locked');
                 nextCard.classList.add('active');
                 
-                // Smooth scroll to the next step
                 setTimeout(() => {
                     nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 300);
@@ -410,23 +406,19 @@
         // Emergency Return to Breathing Logic
         function returnToBreathing() {
             const step1 = document.getElementById('step-1');
-            
-            // Scroll back to Step 1 smoothly
             step1.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
-            // Visually highlight the breathing circle to immediately draw focus
             const circle = document.getElementById('breath-circle');
             circle.style.boxShadow = "0 0 30px #38a169";
             circle.style.transform = "scale(1.1)";
             
-            // Remove highlight after 3 seconds
             setTimeout(() => {
                 circle.style.boxShadow = "none";
                 circle.style.transform = "none";
             }, 3000);
         }
 
-        // Toggle Step 4 Button based on checkbox
+        // Toggle Step 4 Button
         function toggleStep4Btn() {
             const checkBox = document.getElementById('sim-check');
             const btn = document.getElementById('btn-step-4');
