@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SereneScalpel | Virtual Desensitization</title>
+    <title>SereneScalpel | Biological Desensitization</title>
     <style>
         :root {
-            --primary: #2b6cb0;
-            --secondary: #319795;
-            --success: #48bb78;
-            --bg-color: #ebf8fa;
+            /* Biological Theme Colors */
+            --primary: #276749; /* Deep Leaf Green */
+            --secondary: #38a169; /* Active Flora Green */
+            --success: #3182ce; /* Calm Blue */
+            --bg-color: #f0fff4; /* Soft Mint Background */
             --text-main: #2d3748;
             --card-bg: #ffffff;
+            --emergency: #e53e3e; /* Alert Red */
         }
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg-color);
+            background-image: radial-gradient(#c6f6d5 1px, transparent 1px); /* Subtle cell/dot pattern */
+            background-size: 20px 20px;
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -26,19 +30,27 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             padding: 40px 20px;
         }
 
         header {
             text-align: center;
             margin-bottom: 40px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         header h1 {
             color: var(--primary);
             font-size: 2.5rem;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         header p {
@@ -50,16 +62,16 @@
         .progress-container {
             background: #e2e8f0;
             border-radius: 10px;
-            height: 10px;
-            margin-bottom: 30px;
+            height: 12px;
+            margin-top: 20px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.5s ease-in-out;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transition: width 0.6s ease-in-out;
         }
 
         /* Step Cards */
@@ -70,26 +82,25 @@
             margin-bottom: 25px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
             border-left: 6px solid #cbd5e0;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
-            overflow: hidden;
         }
 
         .step-card.active {
             border-left-color: var(--secondary);
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(39, 103, 73, 0.15);
         }
 
         .step-card.completed {
             border-left-color: var(--success);
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         .step-card.locked {
             opacity: 0.5;
             pointer-events: none;
-            filter: grayscale(100%);
+            filter: grayscale(80%);
         }
 
         .step-header {
@@ -108,90 +119,142 @@
         }
 
         .badge {
-            background: #edf2f7;
+            background: #e6fffa;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: bold;
-            color: #718096;
+            color: var(--primary);
+            border: 1px solid #b2f5ea;
         }
 
         .content-area {
             margin: 20px 0;
-            padding: 15px;
+            padding: 20px;
             background: #f7fafc;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
         }
 
-        /* Interactive Breathing Animation for Step 1 */
+        /* Media Grid for Images & Videos */
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .media-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .media-item h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .media-item img, .media-item iframe {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Interactive Breathing Animation */
+        .breathing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
         .breathing-circle {
-            width: 100px;
-            height: 100px;
-            background: rgba(49, 151, 149, 0.2);
+            width: 120px;
+            height: 120px;
+            background: rgba(56, 161, 105, 0.15);
             border: 4px solid var(--secondary);
             border-radius: 50%;
-            margin: 20px auto;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: var(--secondary);
+            font-size: 1.2rem;
+            color: var(--primary);
             animation: breathe 8s infinite ease-in-out;
+            transition: box-shadow 0.3s ease;
         }
 
         @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
+            0%, 100% { transform: scale(1); opacity: 0.7; }
             50% { transform: scale(1.5); opacity: 1; }
         }
 
-        /* Mini Simulation for Step 4 */
-        .simulation-zone {
-            width: 100%;
-            height: 150px;
-            background: #fed7d7;
-            border: 2px dashed #e53e3e;
-            border-radius: 8px;
+        /* Buttons */
+        .btn-group {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: crosshair;
-            position: relative;
-            transition: background 0.3s;
-        }
-        
-        .simulation-zone:active {
-            background: #feb2b2;
-        }
-
-        .cut-line {
-            width: 0%;
-            height: 4px;
-            background: #c53030;
-            position: absolute;
-            transition: width 0.5s ease;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         button.action-btn {
             background-color: var(--secondary);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
         }
 
         button.action-btn:hover {
-            background-color: #285e61;
+            background-color: var(--primary);
+            transform: translateY(-1px);
         }
 
         button.action-btn:disabled {
             background-color: #a0aec0;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        button.emergency-btn {
+            background-color: transparent;
+            color: var(--emergency);
+            border: 2px solid var(--emergency);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button.emergency-btn:hover {
+            background-color: #fff5f5;
+        }
+
+        /* Responsive Grid */
+        @media (max-width: 600px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+            .media-item iframe {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -199,7 +262,7 @@
 
     <div class="container">
         <header>
-            <h1>SereneScalpel</h1>
+            <h1>🌿 SereneScalpel</h1>
             <p>Virtual Desensitization Protocol for Biological Labs</p>
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
@@ -211,10 +274,12 @@
                 <div class="step-title">Step 1: Relaxation Training</div>
                 <div class="badge">Baseline</div>
             </div>
-            <p>Master deep breathing and positive self-talk to lower your resting heart rate.</p>
+            <p>Master deep breathing and positive self-talk to lower your resting heart rate. Focus on the expanding circle.</p>
             <div class="content-area">
-                <div class="breathing-circle">Breathe</div>
-                <p><small>Inhale for 4 seconds, hold for 2, exhale for 4.</small></p>
+                <div class="breathing-container">
+                    <div class="breathing-circle" id="breath-circle">Breathe</div>
+                </div>
+                <p><strong>Pattern:</strong> Inhale for 4s, Hold for 2s, Exhale for 4s.</p>
             </div>
             <button class="action-btn" onclick="completeStep(1)">I am Relaxed & Ready</button>
         </div>
@@ -226,9 +291,21 @@
             </div>
             <p>Review the illustrated, non-threatening diagrams of the organism while maintaining your breathing pattern.</p>
             <div class="content-area">
-                <img src="https://via.placeholder.com/600x200?text=Insert+Anatomy+Diagram+Here" alt="Anatomy Diagram" style="width: 100%; border-radius: 5px;">
+                <div class="media-grid">
+                    <div class="media-item">
+                        <h4>Frog Anatomy Diagram</h4>
+                        <img src="https://drive.google.com/uc?export=view&id=1iX7C5jN_prDh0TXVoDY2GK8_uNG6saX3" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x200?text=Frog+Diagram+Load+Error'">
+                    </div>
+                    <div class="media-item">
+                        <h4>Rat Anatomy Diagram</h4>
+                        <img src="https://drive.google.com/uc?export=view&id=1AekgYREbRVyMOj_gfHJGF5vFwptDc3Qy" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x200?text=Rat+Diagram+Load+Error'">
+                    </div>
+                </div>
             </div>
-            <button class="action-btn" onclick="completeStep(2)">My Breathing is Steady</button>
+            <div class="btn-group">
+                <button class="action-btn" onclick="completeStep(2)">My Breathing is Steady</button>
+                <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+            </div>
         </div>
 
         <div class="step-card locked" id="step-3">
@@ -236,26 +313,42 @@
                 <div class="step-title">Step 3: Clinical Observation</div>
                 <div class="badge">Moderate Exposure</div>
             </div>
-            <p>Watch the silent clinical procedure. If you feel panic, look away and return to Step 1 breathing.</p>
+            <p>Watch the clinical procedure. Keep the volume low or muted. If you feel panic, look away and click the return button.</p>
             <div class="content-area">
-                <div style="padding: 20px; background: #ddd; border-radius: 5px;">[Insert Clinical Video Embed Here]</div>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <h4>Frog Dissection Video</h4>
+                        <iframe src="https://www.youtube.com/embed/PpNeSWMBY58" title="Frog Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="media-item">
+                        <h4>Rat Dissection Video</h4>
+                        <iframe src="https://www.youtube.com/embed/1BFOYIS1q2s" title="Rat Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
-            <button class="action-btn" onclick="completeStep(3)">Heart Rate Stable, Proceed</button>
+            <div class="btn-group">
+                <button class="action-btn" onclick="completeStep(3)">Heart Rate Stable, Proceed</button>
+                <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+            </div>
         </div>
 
         <div class="step-card locked" id="step-4">
             <div class="step-header">
-                <div class="step-title">Step 4: Virtual Incision</div>
+                <div class="step-title">Step 4: Virtual Dissection Simulator</div>
                 <div class="badge">High Exposure</div>
             </div>
-            <p>Click and hold inside the surgical zone to simulate the precise motor control needed for an incision.</p>
-            <div class="content-area">
-                <div class="simulation-zone" id="sim-zone" onclick="performCut()">
-                    <div class="cut-line" id="cut-line"></div>
-                    <span id="sim-text">Click to make virtual incision</span>
-                </div>
+            <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab.</p>
+            <div class="content-area" style="padding: 0; overflow: hidden; border: 2px solid #e2e8f0;">
+                <iframe src="https://scratch.mit.edu/projects/1234567/embed" style="width: 100%; height: 450px; border: none; background: #2d3748;" title="Virtual Dissection Interactive" id="interactive-sim"></iframe>
             </div>
-            <button class="action-btn" id="btn-step-4" onclick="completeStep(4)" disabled>Complete Simulation First</button>
+            <div class="btn-group">
+                <label style="display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 10px; cursor: pointer;">
+                    <input type="checkbox" id="sim-check" style="width: 20px; height: 20px;" onchange="toggleStep4Btn()">
+                    <strong>I have completed the virtual dissection simulation.</strong>
+                </label>
+                <button class="action-btn" id="btn-step-4" onclick="completeStep(4)" disabled>Simulation Complete - Proceed</button>
+                <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+            </div>
         </div>
 
         <div class="step-card locked" id="step-5">
@@ -263,8 +356,8 @@
                 <div class="step-title">Step 5: Physical Lab Station</div>
                 <div class="badge">Target Goal</div>
             </div>
-            <p>You have successfully unlearned the fear response. Approach the physical lab station using your practiced self-talk.</p>
-            <button class="action-btn" style="background-color: var(--primary);" onclick="alert('Congratulations! You have completed the SereneScalpel protocol. You are ready for the lab.')">Initiate Physical Lab Session</button>
+            <p>You have successfully unlearned the fear response. Approach the physical lab station with confidence using your practiced self-talk.</p>
+            <button class="action-btn" style="background-color: var(--primary); padding: 18px; font-size: 1.2rem;" onclick="alert('Congratulations! You have completed the SereneScalpel protocol. You are now prepared for the physical laboratory session.')">🧪 Initiate Physical Lab Session</button>
         </div>
 
     </div>
@@ -283,10 +376,19 @@
             currentCard.classList.remove('active');
             currentCard.classList.add('completed');
             
+            // Update button UI
             const btn = currentCard.querySelector('.action-btn');
-            btn.innerText = "Completed ✓";
-            btn.disabled = true;
-            btn.style.backgroundColor = "var(--success)";
+            if (btn) {
+                btn.innerText = "Completed ✓";
+                btn.disabled = true;
+                btn.style.backgroundColor = "var(--success)";
+            }
+
+            // Hide emergency button on completed steps to clean up UI
+            const emergencyBtn = currentCard.querySelector('.emergency-btn');
+            if (emergencyBtn) {
+                emergencyBtn.style.display = 'none';
+            }
 
             // Unlock next step
             const nextStep = currentStep + 1;
@@ -297,30 +399,38 @@
                 nextCard.classList.add('active');
                 
                 // Smooth scroll to the next step
-                nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
             }
 
             updateProgress(currentStep);
         }
 
-        // Mini Simulation Logic for Step 4
-        let cutProgress = 0;
-        function performCut() {
-            if (cutProgress < 100) {
-                cutProgress += 25;
-                document.getElementById('cut-line').style.width = cutProgress + '%';
-                
-                if (cutProgress >= 100) {
-                    document.getElementById('sim-text').innerText = "Incision Complete";
-                    document.getElementById('sim-text').style.color = "white";
-                    document.getElementById('sim-text').style.position = "relative";
-                    document.getElementById('sim-text').style.zIndex = "2";
-                    
-                    const step4Btn = document.getElementById('btn-step-4');
-                    step4Btn.disabled = false;
-                    step4Btn.innerText = "Simulation Complete - Proceed";
-                }
-            }
+        // Emergency Return to Breathing Logic
+        function returnToBreathing() {
+            const step1 = document.getElementById('step-1');
+            
+            // Scroll back to Step 1 smoothly
+            step1.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Visually highlight the breathing circle to immediately draw focus
+            const circle = document.getElementById('breath-circle');
+            circle.style.boxShadow = "0 0 30px #38a169";
+            circle.style.transform = "scale(1.1)";
+            
+            // Remove highlight after 3 seconds
+            setTimeout(() => {
+                circle.style.boxShadow = "none";
+                circle.style.transform = "none";
+            }, 3000);
+        }
+
+        // Toggle Step 4 Button based on checkbox
+        function toggleStep4Btn() {
+            const checkBox = document.getElementById('sim-check');
+            const btn = document.getElementById('btn-step-4');
+            btn.disabled = !checkBox.checked;
         }
     </script>
 </body>
