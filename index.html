@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SereneScalpel | Biological Desensitization</title>
+    <title>SereneScalpel | Advanced Biological Desensitization</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Modern Biological Theme Colors */
-            --primary: #10b981; /* Emerald Green */
+            --primary: #10b981; 
             --primary-dark: #047857; 
             --secondary: #34d399; 
-            --success: #3b82f6; /* Modern Blue */
-            --bg-color: #f3f4f6; /* Soft Gray/White */
+            --success: #3b82f6; 
+            --bg-color: #f3f4f6; 
             --text-main: #1f2937;
             --text-light: #6b7280;
             --card-bg: #ffffff;
             --emergency: #ef4444; 
+            --warning: #f59e0b;
             --border-radius: 20px;
         }
 
         * {
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -42,6 +43,68 @@
             width: 100%;
             max-width: 900px;
             padding: 40px 20px;
+            position: relative;
+        }
+
+        /* --- Audio & Assistant Controls --- */
+        .top-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .audio-btn {
+            background: var(--card-bg);
+            border: 2px solid #e5e7eb;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .audio-btn:hover { border-color: var(--primary); }
+        .audio-btn.playing { border-color: var(--primary); color: var(--primary-dark); }
+
+        /* Floating Assistant */
+        .assistant-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            z-index: 1000;
+            animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .assistant-bubble {
+            background: var(--primary-dark);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 0 20px;
+            max-width: 250px;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 25px rgba(4, 120, 87, 0.3);
+            display: none; /* Hidden on registration screen */
+        }
+
+        .assistant-avatar {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         /* --- Registration Screen --- */
@@ -64,400 +127,109 @@
             text-align: center;
         }
 
-        .reg-card h1 {
-            color: var(--primary-dark);
-            margin-bottom: 10px;
-            font-size: 2.2rem;
-        }
-
-        .reg-card p {
-            color: var(--text-light);
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
+        .reg-card h1 { color: var(--primary-dark); margin-bottom: 10px; font-size: 2.2rem; }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
         .input-group input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            width: 100%; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem;
         }
+        .input-group input:focus { outline: none; border-color: var(--primary); }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-        }
-
-        /* --- Main App (Hidden Initially) --- */
-        #main-app {
-            display: none;
-            animation: fadeIn 0.8s ease;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-
-        header h1 {
-            color: var(--primary-dark);
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.5px;
-        }
-
-        header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            margin: 0;
-        }
-
-        .student-badge {
-            display: inline-block;
-            background: #ecfdf5;
-            color: var(--primary-dark);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            margin-top: 15px;
-            border: 1px solid #a7f3d0;
-        }
+        /* --- Main App --- */
+        #main-app { display: none; animation: fadeIn 0.8s ease; }
+        header { text-align: center; margin-bottom: 30px; background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        header h1 { color: var(--primary-dark); font-size: 2.5rem; margin: 0 0 10px 0; }
+        .student-badge { display: inline-block; background: #ecfdf5; color: var(--primary-dark); padding: 8px 20px; border-radius: 30px; font-weight: 600; margin-top: 15px; border: 1px solid #a7f3d0; }
 
         /* Progress Bar */
-        .progress-container {
-            background: #e5e7eb;
-            border-radius: 20px;
-            height: 14px;
-            margin-top: 25px;
-            overflow: hidden;
-            position: sticky;
-            top: 15px;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .progress-container { background: #e5e7eb; border-radius: 20px; height: 14px; margin-top: 25px; overflow: hidden; position: sticky; top: 15px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--secondary), var(--primary)); transition: width 0.8s ease; }
 
         /* Step Cards */
-        .step-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
-            border: 1px solid #f3f4f6;
-            border-left: 8px solid #d1d5db;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            margin-top: 25px;
-        }
+        .step-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 35px; margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); border-left: 8px solid #d1d5db; transition: all 0.4s ease; margin-top: 25px; }
+        .step-card.active { border-left-color: var(--primary); transform: translateY(-4px); box-shadow: 0 20px 35px rgba(16, 185, 129, 0.12); }
+        .step-card.completed { border-left-color: var(--success); opacity: 0.9; background-color: #f8fafc; }
+        .step-card.locked { opacity: 0.4; pointer-events: none; filter: grayscale(100%); }
+        .step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f3f4f6; padding-bottom: 15px; }
+        .step-title { font-size: 1.5rem; font-weight: 700; color: var(--primary-dark); }
+        .badge { background: #dcfce7; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); }
+        .content-area { margin: 25px 0; padding: 25px; background: #f9fafb; border-radius: 16px; text-align: center; border: 1px solid #e5e7eb; }
 
-        .step-card.active {
-            border-left-color: var(--primary);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 35px rgba(16, 185, 129, 0.12);
-        }
-
-        .step-card.completed {
-            border-left-color: var(--success);
-            opacity: 0.9;
-            background-color: #f8fafc;
-        }
-
-        .step-card.locked {
-            opacity: 0.4;
-            pointer-events: none;
-            filter: grayscale(100%);
-        }
-
-        .step-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f3f4f6;
-            padding-bottom: 15px;
-        }
-
-        .step-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        .badge {
-            background: #dcfce7;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .content-area {
-            margin: 25px 0;
-            padding: 25px;
-            background: #f9fafb;
-            border-radius: 16px;
-            text-align: center;
-            border: 1px solid #e5e7eb;
-        }
+        /* Biofeedback & Quiz Styles */
+        .bio-input-box { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .bio-input-box input { width: 120px; text-align: center; padding: 12px; border: 2px solid var(--primary); border-radius: 10px; font-size: 1.2rem; font-weight: bold; }
+        .quiz-option { display: block; width: 100%; padding: 12px; margin: 8px 0; background: white; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+        .quiz-option:hover { border-color: var(--primary); background: #ecfdf5; }
+        .quiz-option.correct { background: var(--primary); color: white; border-color: var(--primary-dark); }
 
         /* Media Grid */
-        .media-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .media-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .media-item h4 {
-            margin: 0 0 12px 0;
-            color: var(--primary-dark);
-            font-size: 1.05rem;
-        }
-
-        .media-item img, .media-item iframe {
-            width: 100%;
-            height: 260px;
-            object-fit: contain;
-            background-color: #fff;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .media-item img:hover {
-            transform: scale(1.02);
-        }
+        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .media-item img, .media-item iframe { width: 100%; height: 260px; object-fit: contain; background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; }
 
         /* Breathing Animation */
-        .breathing-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 30px 0;
-        }
-
-        .breathing-circle {
-            width: 140px;
-            height: 140px;
-            background: rgba(52, 211, 153, 0.1);
-            border: 6px solid var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: var(--primary-dark);
-            animation: breathe 8s infinite ease-in-out;
-            transition: box-shadow 0.3s ease;
-        }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.4); opacity: 1; }
-        }
+        .breathing-circle { width: 140px; height: 140px; background: rgba(52, 211, 153, 0.1); border: 6px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem; color: var(--primary-dark); margin: 30px auto; animation: breathe 8s infinite ease-in-out; }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.4); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceIn { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         /* Buttons */
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 25px;
-        }
+        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        button.action-btn { background-color: var(--primary); color: white; border: none; padding: 16px 28px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s ease; }
+        button.action-btn:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
+        button.action-btn:disabled { background-color: #d1d5db; cursor: not-allowed; transform: none; }
+        button.emergency-btn { background-color: transparent; color: var(--emergency); border: 2px solid #fca5a5; padding: 14px 24px; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
+        button.emergency-btn:hover { background-color: #fef2f2; border-color: var(--emergency); }
 
-        button.action-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px 28px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        }
-
-        button.action-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
-        }
-
-        button.action-btn:disabled {
-            background-color: #d1d5db;
-            color: #6b7280;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        button.emergency-btn {
-            background-color: transparent;
-            color: var(--emergency);
-            border: 2px solid #fca5a5;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        button.emergency-btn:hover {
-            background-color: #fef2f2;
-            border-color: var(--emergency);
-        }
-
-        a.launch-sim-btn {
-            display: inline-block;
-            background-color: var(--primary-dark);
-            color: white;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2);
-        }
-
-        a.launch-sim-btn:hover {
-            background-color: #064e3b;
-            transform: translateY(-2px);
-        }
-
-        /* --- Certificate Section --- */
-        #certificate-section {
-            display: none;
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-            color: white;
-            padding: 40px;
-            border-radius: var(--border-radius);
-            text-align: center;
-            margin-top: 30px;
-            box-shadow: 0 20px 40px rgba(4, 120, 87, 0.3);
-            animation: fadeIn 1s ease;
-        }
-
-        #certificate-section h2 {
-            font-size: 2.2rem;
-            margin: 0 0 10px 0;
-        }
-
-        .cert-details {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .cert-details h3 {
-            margin: 5px 0;
-            font-size: 1.5rem;
-        }
+        /* Certificate */
+        #certificate-section { display: none; background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; padding: 40px; border-radius: var(--border-radius); text-align: center; margin-top: 30px; animation: fadeIn 1s ease; }
+        .cert-details { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 20px; border-radius: 15px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.2); }
         
-        .cert-details p {
-            margin: 5px 0;
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .media-grid {
-                grid-template-columns: 1fr;
-            }
-            .step-card {
-                padding: 25px;
-            }
-            .reg-card {
-                padding: 30px 20px;
-            }
-        }
+        @media (max-width: 768px) { .media-grid { grid-template-columns: 1fr; } .assistant-widget { bottom: 15px; right: 15px; } .assistant-bubble { display: none !important; } }
     </style>
 </head>
 <body>
 
+    <audio id="ambient-audio" loop>
+        <source src="./ambient.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="assistant-widget">
+        <div class="assistant-bubble" id="assistant-text">
+            Welcome! I am Dr. Serene. I will guide you through this protocol. Take a deep breath.
+        </div>
+        <div class="assistant-avatar">👩‍🔬</div>
+    </div>
+
     <div class="container">
         
+        <div class="top-controls">
+            <button class="audio-btn" id="audio-toggle" onclick="toggleAudio()">
+                🎵 Enable Soundscape
+            </button>
+        </div>
+
         <div id="registration-screen">
             <div class="reg-card">
                 <h1>🌿 SereneScalpel</h1>
-                <p>Virtual Desensitization Protocol</p>
-                
+                <p>Advanced Virtual Desensitization Protocol</p>
                 <div class="input-group">
-                    <label for="student-name">Full Name</label>
+                    <label>Full Name</label>
                     <input type="text" id="student-name" placeholder="Enter your full name" required>
                 </div>
-                
                 <div class="input-group">
-                    <label for="student-id">Student ID / Matrix No.</label>
+                    <label>Student ID / Matrix No.</label>
                     <input type="text" id="student-id" placeholder="Enter your ID" required>
                 </div>
-                
                 <button class="action-btn" onclick="startApp()" style="margin-top: 10px;">Begin Protocol</button>
                 <p id="error-msg" style="color: var(--emergency); font-size: 0.9rem; display: none; margin-top: 15px;">Please fill in both fields to continue.</p>
             </div>
         </div>
-
 
         <div id="main-app">
             <header>
                 <h1>🌿 SereneScalpel</h1>
                 <p>Biological Lab Anxiety Desensitization</p>
                 <div class="student-badge" id="display-student-name">Session: Student Name</div>
-                
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar"></div>
                 </div>
@@ -466,24 +238,21 @@
             <div class="step-card active" id="step-1">
                 <div class="step-header">
                     <div class="step-title">Step 1: Relaxation Training</div>
-                    <div class="badge">Baseline</div>
+                    <div class="badge">Phase 1 / 6</div>
                 </div>
-                <p>Master deep breathing and positive self-talk to lower your resting heart rate. Focus on the expanding circle.</p>
+                <p>Follow the expanding circle. Inhale for 4 seconds, hold for 2, exhale for 4.</p>
                 <div class="content-area">
-                    <div class="breathing-container">
-                        <div class="breathing-circle" id="breath-circle">Breathe</div>
-                    </div>
-                    <p><strong>Pattern:</strong> Inhale for 4s, Hold for 2s, Exhale for 4s.</p>
+                    <div class="breathing-circle" id="breath-circle">Breathe</div>
                 </div>
-                <button class="action-btn" onclick="completeStep(1)">I am Relaxed & Ready</button>
+                <button class="action-btn" onclick="completeStep(1, 'Review the diagrams carefully without rushing.')">I am Relaxed & Ready</button>
             </div>
 
             <div class="step-card locked" id="step-2">
                 <div class="step-header">
                     <div class="step-title">Step 2: Anatomical Overview</div>
-                    <div class="badge">Low Exposure</div>
+                    <div class="badge">Phase 2 / 6</div>
                 </div>
-                <p>Review real dissection anatomy diagrams of the organism while maintaining your breathing pattern.</p>
+                <p>Review real dissection anatomy diagrams while maintaining your breathing pattern.</p>
                 <div class="content-area">
                     <div class="media-grid">
                         <div class="media-item">
@@ -496,8 +265,17 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="content-area" style="background: white; text-align: left; border-color: var(--primary);">
+                    <h4 style="color: var(--primary-dark); margin-top: 0;">🧠 Cognitive Focus Check</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Shift your focus. Based on the diagrams above, which organ is prominently positioned just below the heart in the rat?</p>
+                    <button class="quiz-option" onclick="handleQuiz(this, false)">A) The Kidneys</button>
+                    <button class="quiz-option" onclick="handleQuiz(this, true)">B) The Liver</button>
+                    <button class="quiz-option" onclick="handleQuiz(this, false)">C) The Lungs</button>
+                </div>
+
                 <div class="btn-group">
-                    <button class="action-btn" onclick="completeStep(2)">My Breathing is Steady</button>
+                    <button class="action-btn" id="btn-step-2" onclick="completeStep(2, 'Watch the videos. Remember to breathe if you feel tense.')" disabled>Complete Quiz to Proceed</button>
                     <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
                 </div>
             </div>
@@ -505,70 +283,85 @@
             <div class="step-card locked" id="step-3">
                 <div class="step-header">
                     <div class="step-title">Step 3: Clinical Observation</div>
-                    <div class="badge">Moderate Exposure</div>
+                    <div class="badge">Phase 3 / 6</div>
                 </div>
-                <p>Watch the clinical procedure. Keep the volume low or muted. If you feel panic, look away and click the return button.</p>
+                <p>Watch the clinical procedure. If you feel panic, look away and click the return button.</p>
                 <div class="content-area">
                     <div class="media-grid">
                         <div class="media-item">
                             <h4>Frog Dissection Video</h4>
-                            <iframe src="https://www.youtube.com/embed/PpNeSWMBY58" title="Frog Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/PpNeSWMBY58" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div class="media-item">
                             <h4>Rat Dissection Video</h4>
-                            <iframe src="https://www.youtube.com/embed/1BFOYIS1q2s" title="Rat Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/1BFOYIS1q2s" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button class="action-btn" onclick="completeStep(3)">Heart Rate Stable, Proceed</button>
+                    <button class="action-btn" onclick="completeStep(3, 'Let us check your physiological state before the simulation.')">Videos Completed, Proceed</button>
                     <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
                 </div>
             </div>
 
             <div class="step-card locked" id="step-4">
                 <div class="step-header">
-                    <div class="step-title">Step 4: Virtual Dissection Simulator</div>
-                    <div class="badge">High Exposure</div>
+                    <div class="step-title">Step 4: Physiological Check</div>
+                    <div class="badge">Phase 4 / 6</div>
                 </div>
-                <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab. The simulation will open safely in a new tab.</p>
-                <div class="content-area" style="padding: 40px 20px; background-color: #fff;">
-                    
-                    <a href="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" target="_blank" class="launch-sim-btn">
-                        🚀 Launch LabXchange Simulator
-                    </a>
-                    <p style="font-size: 0.95rem; color: var(--text-light); margin-top: 10px;"><em>(Opens in a new tab. Return here once finished.)</em></p>
-                    
+                <p>Before initiating the interactive simulation, check your pulse or smartwatch for 15 seconds. Enter your current Heart Rate (BPM).</p>
+                <div class="content-area">
+                    <h4>Current Heart Rate</h4>
+                    <div class="bio-input-box">
+                        <input type="number" id="bpm-input" placeholder="e.g. 85">
+                        <span style="align-self: center; font-weight: bold; font-size: 1.2rem; color: var(--text-light);">BPM</span>
+                    </div>
+                    <p id="bpm-feedback" style="margin-top: 15px; font-weight: bold;"></p>
                 </div>
                 <div class="btn-group">
-                    <label style="display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 15px; cursor: pointer; padding: 10px; background: #f3f4f6; border-radius: 8px;">
-                        <input type="checkbox" id="sim-check" style="width: 22px; height: 22px; accent-color: var(--primary);" onchange="toggleStep4Btn()">
-                        <strong style="color: var(--text-main);">I have completed the virtual dissection simulation.</strong>
-                    </label>
-                    <button class="action-btn" id="btn-step-4" onclick="completeStep(4)" disabled>Simulation Complete - Proceed</button>
-                    <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+                    <button class="action-btn" onclick="checkBPM()">Verify Heart Rate</button>
                 </div>
             </div>
 
             <div class="step-card locked" id="step-5">
                 <div class="step-header">
-                    <div class="step-title">Step 5: Physical Lab Readiness</div>
-                    <div class="badge">Target Goal</div>
+                    <div class="step-title">Step 5: Virtual Dissection Simulator</div>
+                    <div class="badge">Phase 5 / 6</div>
                 </div>
-                <p>You have successfully unlearned the fear response. Approach the physical lab station with confidence using your practiced self-talk.</p>
+                <p>Engage with the digital dissection interface to practice motor control.</p>
+                <div class="content-area">
+                    <a href="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" target="_blank" style="display: inline-block; background: var(--primary-dark); color: white; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: bold;">
+                        🚀 Launch LabXchange Simulator
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <label style="display: flex; align-items: center; justify-content: center; gap: 10px; background: white; padding: 10px; border-radius: 8px;">
+                        <input type="checkbox" id="sim-check" style="width: 20px; height: 20px;" onchange="document.getElementById('btn-step-5').disabled = !this.checked;">
+                        <strong>I have completed the simulation.</strong>
+                    </label>
+                    <button class="action-btn" id="btn-step-5" onclick="completeStep(5, 'Excellent. You are ready for the physical laboratory.')" disabled>Simulation Complete</button>
+                    <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+                </div>
+            </div>
+
+            <div class="step-card locked" id="step-6">
+                <div class="step-header">
+                    <div class="step-title">Step 6: Physical Lab Readiness</div>
+                    <div class="badge">Phase 6 / 6</div>
+                </div>
+                <p>You have successfully unlearned the fear response. You are prepared.</p>
                 <button class="action-btn" style="padding: 20px; font-size: 1.25rem;" onclick="generateCertificate()">✅ Initiate Physical Lab Session</button>
             </div>
 
             <div id="certificate-section">
-                <h2>🏆 Protocol Completed</h2>
-                <p>Please take a screenshot of this digital pass and show it to your lecturer.</p>
-                
+                <h2>🏆 Protocol Cleared</h2>
+                <p>Screenshot this digital pass for your records.</p>
                 <div class="cert-details">
-                    <h3 id="cert-name">Student Name</h3>
-                    <p id="cert-id">ID: 123456</p>
+                    <h3 id="cert-name">Name</h3>
+                    <p id="cert-id">ID</p>
                     <hr style="border: 1px solid rgba(255,255,255,0.2); margin: 15px 0;">
-                    <p id="cert-date">Completed on: [Date]</p>
-                    <p style="font-weight: bold; margin-top: 10px;">Status: CLEARED FOR PHYSICAL LAB</p>
+                    <p id="cert-date">Date</p>
+                    <p style="font-weight: bold; margin-top: 10px;">Status: READY FOR LAB</p>
                 </div>
             </div>
 
@@ -576,131 +369,142 @@
     </div>
 
     <script>
-        // Global Variables for Personalization
-        let sName = "";
-        let sID = "";
+        let sName = "", sID = "";
+        const TOTAL_STEPS = 6;
+        let isAudioPlaying = false;
+        const audio = document.getElementById('ambient-audio');
+        const assistantBubble = document.getElementById('assistant-text');
 
-        // App Initialization
+        // Audio Control
+        function toggleAudio() {
+            const btn = document.getElementById('audio-toggle');
+            if (isAudioPlaying) {
+                audio.pause();
+                btn.innerText = "🎵 Enable Soundscape";
+                btn.classList.remove('playing');
+            } else {
+                audio.play().catch(e => console.log("Upload ambient.mp3 to fix audio play error."));
+                btn.innerText = "🔊 Soundscape Active";
+                btn.classList.add('playing');
+            }
+            isAudioPlaying = !isAudioPlaying;
+        }
+
+        // Assistant Update
+        function updateAssistant(message) {
+            assistantBubble.style.display = 'block';
+            assistantBubble.innerText = message;
+        }
+
+        // Start App
         function startApp() {
-            const nameInput = document.getElementById('student-name').value.trim();
-            const idInput = document.getElementById('student-id').value.trim();
-            const errorMsg = document.getElementById('error-msg');
-
-            if (nameInput === "" || idInput === "") {
-                errorMsg.style.display = "block";
+            const n = document.getElementById('student-name').value.trim();
+            const id = document.getElementById('student-id').value.trim();
+            if (n === "" || id === "") {
+                document.getElementById('error-msg').style.display = "block";
                 return;
             }
-
-            // Save data and switch UI
-            sName = nameInput;
-            sID = idInput;
-            
+            sName = n; sID = id;
             document.getElementById('registration-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-            
-            // Update UI with student name
             document.getElementById('display-student-name').innerText = "Session: " + sName;
+            updateAssistant("Hello " + sName.split(' ')[0] + "! Let's begin with some deep breathing.");
         }
 
-        // Update Progress Bar
+        // Update Progress
         function updateProgress(step) {
-            const progress = (step / 5) * 100;
-            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('progress-bar').style.width = ((step / TOTAL_STEPS) * 100) + '%';
         }
 
-        // Handle Step Progression
-        function completeStep(currentStep) {
-            const currentCard = document.getElementById('step-' + currentStep);
+        // Complete Step Logic
+        function completeStep(stepNum, assistantMsg) {
+            const currentCard = document.getElementById('step-' + stepNum);
             currentCard.classList.remove('active');
             currentCard.classList.add('completed');
             
             const btn = currentCard.querySelector('.action-btn');
-            if (btn) {
-                btn.innerText = "Completed ✓";
-                btn.disabled = true;
-                btn.style.backgroundColor = "var(--success)";
-            }
-
-            const emergencyBtn = currentCard.querySelector('.emergency-btn');
-            if (emergencyBtn) {
-                emergencyBtn.style.display = 'none';
-            }
-
-            const nextStep = currentStep + 1;
-            const nextCard = document.getElementById('step-' + nextStep);
+            if (btn) { btn.innerText = "Completed ✓"; btn.disabled = true; btn.style.backgroundColor = "var(--success)"; }
             
+            const emergencyBtn = currentCard.querySelector('.emergency-btn');
+            if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+            const nextStep = stepNum + 1;
+            const nextCard = document.getElementById('step-' + nextStep);
             if (nextCard) {
                 nextCard.classList.remove('locked');
                 nextCard.classList.add('active');
-                
                 setTimeout(() => {
-                    const yOffset = -80; 
-                    const y = nextCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    const y = nextCard.getBoundingClientRect().top + window.pageYOffset - 80;
                     window.scrollTo({top: y, behavior: 'smooth'});
                 }, 300);
             }
-
-            updateProgress(currentStep);
+            
+            if (assistantMsg) updateAssistant(assistantMsg);
+            updateProgress(stepNum);
         }
 
-        // Emergency Return to Breathing Logic
+        // Quiz Logic
+        function handleQuiz(element, isCorrect) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.style.pointerEvents = 'none'); // Lock answers
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                document.getElementById('btn-step-2').disabled = false;
+                document.getElementById('btn-step-2').innerText = "Quiz Passed - Proceed";
+                updateAssistant("Excellent focus! Correct answer.");
+            } else {
+                element.style.backgroundColor = "var(--emergency)";
+                element.style.color = "white";
+                updateAssistant("Not quite. Try refreshing your focus on the diagrams.");
+                setTimeout(() => {
+                    options.forEach(opt => { opt.style.pointerEvents = 'auto'; opt.style.backgroundColor = ""; opt.style.color = ""; });
+                }, 2000);
+            }
+        }
+
+        // Biofeedback Logic
+        function checkBPM() {
+            const bpm = document.getElementById('bpm-input').value;
+            const feedback = document.getElementById('bpm-feedback');
+            
+            if (!bpm || bpm <= 0) {
+                feedback.innerText = "Please enter a valid BPM.";
+                feedback.style.color = "var(--warning)";
+                return;
+            }
+
+            if (bpm > 100) {
+                feedback.innerText = "Your heart rate (" + bpm + " BPM) indicates elevated anxiety. Please return to Step 1 and practice breathing before proceeding.";
+                feedback.style.color = "var(--emergency)";
+                updateAssistant("It's okay to feel anxious. Let's return to our breathing exercises.");
+            } else {
+                feedback.innerText = "Heart rate stable (" + bpm + " BPM). You are physiologically ready to proceed.";
+                feedback.style.color = "var(--primary-dark)";
+                completeStep(4, 'Your vitals are steady. Let us begin the virtual simulation.');
+            }
+        }
+
+        // Emergency Return
         function returnToBreathing() {
             const step1 = document.getElementById('step-1');
-            
-            const yOffset = -80; 
-            const y = step1.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({top: y, behavior: 'smooth'});
-            
+            window.scrollTo({top: step1.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth'});
             const circle = document.getElementById('breath-circle');
             circle.style.boxShadow = "0 0 40px rgba(16, 185, 129, 0.8)";
             circle.style.transform = "scale(1.1)";
-            
-            setTimeout(() => {
-                circle.style.boxShadow = "none";
-                circle.style.transform = "none";
-            }, 3000);
+            updateAssistant("Breathe with the circle. Inhale... and exhale...");
+            setTimeout(() => { circle.style.boxShadow = "none"; circle.style.transform = "none"; }, 3000);
         }
 
-        // Toggle Step 4 Button
-        function toggleStep4Btn() {
-            const checkBox = document.getElementById('sim-check');
-            const btn = document.getElementById('btn-step-4');
-            btn.disabled = !checkBox.checked;
-        }
-
-        // Final Certificate Generation
+        // Final Certificate
         function generateCertificate() {
-            // Update Step 5 visually
-            const step5 = document.getElementById('step-5');
-            step5.classList.remove('active');
-            step5.classList.add('completed');
-            const btn = step5.querySelector('.action-btn');
-            btn.innerText = "Protocol Cleared ✓";
-            btn.disabled = true;
-            btn.style.backgroundColor = "var(--success)";
-            updateProgress(5);
-
-            // Populate and show certificate
+            completeStep(6, "Congratulations! You have completed the protocol.");
             const cert = document.getElementById('certificate-section');
             document.getElementById('cert-name').innerText = sName;
             document.getElementById('cert-id').innerText = "ID: " + sID;
-            
-            // Format current date and time
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', { 
-                year: 'numeric', month: 'long', day: 'numeric', 
-                hour: '2-digit', minute: '2-digit' 
-            });
-            document.getElementById('cert-date').innerText = "Completed on: " + dateString;
-            
+            document.getElementById('cert-date').innerText = "Completed on: " + new Date().toLocaleString('en-US');
             cert.style.display = 'block';
-
-            // Scroll to certificate
-            setTimeout(() => {
-                const yOffset = -20; 
-                const y = cert.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({top: y, behavior: 'smooth'});
-            }, 400);
+            setTimeout(() => { window.scrollTo({top: cert.getBoundingClientRect().top + window.pageYOffset - 20, behavior: 'smooth'}); }, 400);
         }
     </script>
 </body>
