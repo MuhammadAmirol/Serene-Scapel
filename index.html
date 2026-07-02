@@ -4,182 +4,237 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SereneScalpel | Biological Desensitization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            /* Biological Theme Colors */
-            --primary: #276749; /* Deep Leaf Green */
-            --secondary: #38a169; /* Active Flora Green */
-            --success: #3182ce; /* Calm Blue */
-            --bg-color: #f0fff4; /* Soft Mint Background */
-            --text-main: #2d3748;
+            /* Modern Biological Theme Colors */
+            --primary: #10b981; /* Emerald Green */
+            --primary-dark: #047857; 
+            --secondary: #34d399; 
+            --success: #3b82f6; /* Modern Blue */
+            --bg-color: #f3f4f6; /* Soft Gray/White */
+            --text-main: #1f2937;
+            --text-light: #6b7280;
             --card-bg: #ffffff;
-            --emergency: #e53e3e; /* Alert Red */
+            --emergency: #ef4444; 
+            --border-radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg-color);
-            background-image: radial-gradient(#c6f6d5 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 24px 24px;
             color: var(--text-main);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
+            min-height: 100vh;
         }
 
         .container {
             width: 100%;
-            max-width: 850px;
+            max-width: 900px;
             padding: 40px 20px;
+        }
+
+        /* --- Registration Screen --- */
+        #registration-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .reg-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .reg-card h1 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .reg-card p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        /* --- Main App (Hidden Initially) --- */
+        #main-app {
+            display: none;
+            animation: fadeIn 0.8s ease;
         }
 
         header {
             text-align: center;
             margin-bottom: 30px;
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
 
         header h1 {
-            color: var(--primary);
+            color: var(--primary-dark);
             font-size: 2.5rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
         }
 
         header p {
-            color: #4a5568;
+            color: var(--text-light);
             font-size: 1.1rem;
+            margin: 0;
         }
 
-        /* Intro Section Details */
-        .intro-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            border-top: 6px solid var(--primary);
-            line-height: 1.6;
-        }
-
-        .intro-card h2 {
-            color: var(--primary);
-            margin-top: 0;
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 10px;
-        }
-
-        .intro-card h3 {
-            color: var(--secondary);
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        .intro-card ul {
-            margin-top: 5px;
-            padding-left: 20px;
-        }
-
-        .intro-card li {
-            margin-bottom: 8px;
+        .student-badge {
+            display: inline-block;
+            background: #ecfdf5;
+            color: var(--primary-dark);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 15px;
+            border: 1px solid #a7f3d0;
         }
 
         /* Progress Bar */
         .progress-container {
-            background: #e2e8f0;
-            border-radius: 10px;
-            height: 12px;
-            margin-top: 20px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            height: 14px;
+            margin-top: 25px;
             overflow: hidden;
             position: sticky;
-            top: 10px;
+            top: 15px;
             z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--secondary), var(--primary));
-            transition: width 0.6s ease-in-out;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Step Cards */
         .step-card {
             background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            border-left: 6px solid #cbd5e0;
-            transition: all 0.4s ease;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f3f4f6;
+            border-left: 8px solid #d1d5db;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .step-card.active {
-            border-left-color: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(39, 103, 73, 0.15);
+            border-left-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 35px rgba(16, 185, 129, 0.12);
         }
 
         .step-card.completed {
             border-left-color: var(--success);
-            opacity: 0.85;
+            opacity: 0.9;
+            background-color: #f8fafc;
         }
 
         .step-card.locked {
-            opacity: 0.5;
+            opacity: 0.4;
             pointer-events: none;
-            filter: grayscale(80%);
+            filter: grayscale(100%);
         }
 
         .step-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 15px;
         }
 
         .step-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--primary-dark);
         }
 
         .badge {
-            background: #e6fffa;
-            padding: 5px 12px;
+            background: #dcfce7;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: bold;
-            color: var(--primary);
-            border: 1px solid #b2f5ea;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .content-area {
-            margin: 20px 0;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 10px;
+            margin: 25px 0;
+            padding: 25px;
+            background: #f9fafb;
+            border-radius: 16px;
             text-align: center;
+            border: 1px solid #e5e7eb;
         }
 
-        /* Media Grid for Images & Videos */
+        /* Media Grid */
         .media-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 15px;
+            gap: 25px;
+            margin-top: 20px;
         }
 
         .media-item {
@@ -189,90 +244,99 @@
         }
 
         .media-item h4 {
-            margin: 0 0 10px 0;
-            color: var(--primary);
-            font-size: 1rem;
+            margin: 0 0 12px 0;
+            color: var(--primary-dark);
+            font-size: 1.05rem;
         }
 
         .media-item img, .media-item iframe {
             width: 100%;
-            height: 250px;
+            height: 260px;
             object-fit: contain;
             background-color: #fff;
-            border-radius: 8px;
-            border: 2px solid #e2e8f0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
 
-        /* Interactive Breathing Animation */
+        .media-item img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Breathing Animation */
         .breathing-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 20px 0;
+            margin: 30px 0;
         }
 
         .breathing-circle {
-            width: 120px;
-            height: 120px;
-            background: rgba(56, 161, 105, 0.15);
-            border: 4px solid var(--secondary);
+            width: 140px;
+            height: 140px;
+            background: rgba(52, 211, 153, 0.1);
+            border: 6px solid var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary-dark);
             animation: breathe 8s infinite ease-in-out;
             transition: box-shadow 0.3s ease;
         }
 
         @keyframes breathe {
             0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.5); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 1; }
         }
 
         /* Buttons */
         .btn-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 25px;
         }
 
         button.action-btn {
-            background-color: var(--secondary);
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 14px 24px;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            font-weight: bold;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: background 0.2s, transform 0.1s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
         button.action-btn:hover {
-            background-color: var(--primary);
-            transform: translateY(-1px);
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
         }
 
         button.action-btn:disabled {
-            background-color: #a0aec0;
+            background-color: #d1d5db;
+            color: #6b7280;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         button.emergency-btn {
             background-color: transparent;
             color: var(--emergency);
-            border: 2px solid var(--emergency);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: bold;
+            border: 2px solid #fca5a5;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
             transition: all 0.2s;
@@ -283,33 +347,82 @@
         }
 
         button.emergency-btn:hover {
-            background-color: #fff5f5;
+            background-color: #fef2f2;
+            border-color: var(--emergency);
         }
 
         a.launch-sim-btn {
             display: inline-block;
-            background-color: var(--primary);
+            background-color: var(--primary-dark);
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 20px;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2);
         }
 
         a.launch-sim-btn:hover {
-            background-color: #1a4731;
+            background-color: #064e3b;
+            transform: translateY(-2px);
         }
 
-        /* Responsive Grid */
-        @media (max-width: 600px) {
+        /* --- Certificate Section --- */
+        #certificate-section {
+            display: none;
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 20px 40px rgba(4, 120, 87, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        #certificate-section h2 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+        }
+
+        .cert-details {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .cert-details h3 {
+            margin: 5px 0;
+            font-size: 1.5rem;
+        }
+        
+        .cert-details p {
+            margin: 5px 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
             .media-grid {
                 grid-template-columns: 1fr;
             }
-            .media-item iframe, .media-item img {
-                height: 250px;
+            .step-card {
+                padding: 25px;
+            }
+            .reg-card {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -317,153 +430,178 @@
 <body>
 
     <div class="container">
-        <header>
-            <h1>🌿 SereneScalpel</h1>
-            <p>Virtual Desensitization Protocol for Biological Labs</p>
-        </header>
-
-        <!-- INTRODUCTORY SECTION -->
-        <div class="intro-card">
-            <h2>About SereneScalpel</h2>
-            
-            <h3>1. Problem Statement</h3>
-            <p>Despite the critical role of practical laboratory sessions in biology education, a significant number of secondary and university students experience disruptive anxiety when handling biological specimens or performing dissections. This psychological barrier manifests behaviorally through lab avoidance and cognitively by inducing panic, which increases cognitive load and severely impedes the processing of essential biological information. Traditional pedagogical approaches often fail to address the affective domain of learning, leaving anxious students without systematic support to overcome their fears. Consequently, there is a critical need for an intervention that integrates psychological desensitization techniques with educational technology to gradually reduce anxiety, enabling students to independently apply emotional self-regulation and confidently participate in physical laboratory environments.</p>
-
-            <h3>2. Learning Objectives</h3>
-            <ul>
-                <li>To enable students to perform dissections and handling procedures without disruptive anxiety.</li>
-                <li>To equip students with the ability to independently apply emotional self-regulation techniques in high-stress environments.</li>
-            </ul>
-
-            <h3>3. Methodology: The Anxiety Hierarchy</h3>
-            <p>Outline of the gradual exposure protocol to demonstrate how the digital-hybrid tool is implemented in a classroom setting:</p>
-            <ul>
-                <li><strong>Step 1 (Relaxation):</strong> Utilizing a web-based audio guide to teach deep breathing and muscle relaxation.</li>
-                <li><strong>Step 2 (Lowest Anxiety):</strong> Viewing illustrated, non-threatening anatomical diagrams while practicing breathing techniques.</li>
-                <li><strong>Step 3 (Moderate Anxiety):</strong> Watching a silent, clinical video of the procedure, where progression requires complete relaxation.</li>
-                <li><strong>Step 4 (High Anxiety):</strong> Engaging with an interactive digital simulation that requires clicking to make virtual incisions.</li>
-                <li><strong>Step 5 (Target Behavior):</strong> Approaching the physical lab station in the real world utilizing the practiced self-talk and breathing techniques.</li>
-            </ul>
-
-            <h3>4. Educational Impact</h3>
-            <ul>
-                <li><strong>Behavioral:</strong> Reduces instances of lab avoidance and skipping.</li>
-                <li><strong>Cognitive:</strong> Removes panic-induced cognitive load, which allows for effective biological information processing.</li>
-                <li><strong>Emotional:</strong> Builds immense confidence in students by helping them overcome psychological barriers.</li>
-            </ul>
-        </div>
-
-        <!-- PROGRESS BAR -->
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-
-        <!-- Step 1: Relaxation -->
-        <div class="step-card active" id="step-1">
-            <div class="step-header">
-                <div class="step-title">Step 1: Relaxation Training</div>
-                <div class="badge">Baseline</div>
-            </div>
-            <p>Master deep breathing and positive self-talk to lower your resting heart rate. Focus on the expanding circle.</p>
-            <div class="content-area">
-                <div class="breathing-container">
-                    <div class="breathing-circle" id="breath-circle">Breathe</div>
-                </div>
-                <p><strong>Pattern:</strong> Inhale for 4s, Hold for 2s, Exhale for 4s.</p>
-            </div>
-            <button class="action-btn" onclick="completeStep(1)">I am Relaxed & Ready</button>
-        </div>
-
-        <!-- Step 2: Low Anxiety -->
-        <div class="step-card locked" id="step-2">
-            <div class="step-header">
-                <div class="step-title">Step 2: Anatomical Overview</div>
-                <div class="badge">Low Exposure</div>
-            </div>
-            <p>Review real dissection anatomy diagrams of the organism while maintaining your breathing pattern.</p>
-            <div class="content-area">
-                <div class="media-grid">
-                    <div class="media-item">
-                        <h4>Frog Anatomy Diagram</h4>
-                        <!-- Frog image reference remains the same -->
-                        <img src="./FROG_ANATOMY.jpg" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
-                    </div>
-                    <div class="media-item">
-                        <h4>Rat Anatomy Diagram</h4>
-                        <!-- Fixed to match the exact filename with double extension -->
-                        <img src="./RAT_ANATOMY.webp.jpg" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found.+Check+GitHub+Upload'">
-                    </div>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="action-btn" onclick="completeStep(2)">My Breathing is Steady</button>
-                <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
-            </div>
-        </div>
-
-        <!-- Step 3: Moderate Anxiety -->
-        <div class="step-card locked" id="step-3">
-            <div class="step-header">
-                <div class="step-title">Step 3: Clinical Observation</div>
-                <div class="badge">Moderate Exposure</div>
-            </div>
-            <p>Watch the clinical procedure. Keep the volume low or muted. If you feel panic, look away and click the return button.</p>
-            <div class="content-area">
-                <div class="media-grid">
-                    <div class="media-item">
-                        <h4>Frog Dissection Video</h4>
-                        <iframe src="https://www.youtube.com/embed/PpNeSWMBY58" title="Frog Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="media-item">
-                        <h4>Rat Dissection Video</h4>
-                        <iframe src="https://www.youtube.com/embed/1BFOYIS1q2s" title="Rat Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="action-btn" onclick="completeStep(3)">Heart Rate Stable, Proceed</button>
-                <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
-            </div>
-        </div>
-
-        <!-- Step 4: High Anxiety (Interactive Web App) -->
-        <div class="step-card locked" id="step-4">
-            <div class="step-header">
-                <div class="step-title">Step 4: Virtual Dissection Simulator</div>
-                <div class="badge">High Exposure</div>
-            </div>
-            <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab. The simulation will open safely in a new tab.</p>
-            <div class="content-area" style="padding: 30px; border: 2px dashed #cbd5e0; border-radius: 8px; background-color: #fff;">
+        
+        <div id="registration-screen">
+            <div class="reg-card">
+                <h1>🌿 SereneScalpel</h1>
+                <p>Virtual Desensitization Protocol</p>
                 
-                <a href="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" target="_blank" class="launch-sim-btn">
-                    🚀 Launch LabXchange Simulator
-                </a>
-                <p style="font-size: 0.9rem; color: #718096; margin-top: 0;"><em>(Opens in a new tab. Return here once you have finished the virtual incision.)</em></p>
+                <div class="input-group">
+                    <label for="student-name">Full Name</label>
+                    <input type="text" id="student-name" placeholder="Enter your full name" required>
+                </div>
                 
-            </div>
-            <div class="btn-group">
-                <label style="display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 10px; cursor: pointer;">
-                    <input type="checkbox" id="sim-check" style="width: 20px; height: 20px;" onchange="toggleStep4Btn()">
-                    <strong>I have completed the virtual dissection simulation.</strong>
-                </label>
-                <button class="action-btn" id="btn-step-4" onclick="completeStep(4)" disabled>Simulation Complete - Proceed</button>
-                <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+                <div class="input-group">
+                    <label for="student-id">Student ID / Matrix No.</label>
+                    <input type="text" id="student-id" placeholder="Enter your ID" required>
+                </div>
+                
+                <button class="action-btn" onclick="startApp()" style="margin-top: 10px;">Begin Protocol</button>
+                <p id="error-msg" style="color: var(--emergency); font-size: 0.9rem; display: none; margin-top: 15px;">Please fill in both fields to continue.</p>
             </div>
         </div>
 
-        <!-- Step 5: Target Behavior -->
-        <div class="step-card locked" id="step-5">
-            <div class="step-header">
-                <div class="step-title">Step 5: Physical Lab Station</div>
-                <div class="badge">Target Goal</div>
-            </div>
-            <p>You have successfully unlearned the fear response. Approach the physical lab station with confidence using your practiced self-talk.</p>
-            <button class="action-btn" style="background-color: var(--primary); padding: 18px; font-size: 1.2rem;" onclick="alert('Congratulations! You have completed the SereneScalpel protocol. You are now prepared for the physical laboratory session.')">🧪 Initiate Physical Lab Session</button>
-        </div>
 
+        <div id="main-app">
+            <header>
+                <h1>🌿 SereneScalpel</h1>
+                <p>Biological Lab Anxiety Desensitization</p>
+                <div class="student-badge" id="display-student-name">Session: Student Name</div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </header>
+
+            <div class="step-card active" id="step-1">
+                <div class="step-header">
+                    <div class="step-title">Step 1: Relaxation Training</div>
+                    <div class="badge">Baseline</div>
+                </div>
+                <p>Master deep breathing and positive self-talk to lower your resting heart rate. Focus on the expanding circle.</p>
+                <div class="content-area">
+                    <div class="breathing-container">
+                        <div class="breathing-circle" id="breath-circle">Breathe</div>
+                    </div>
+                    <p><strong>Pattern:</strong> Inhale for 4s, Hold for 2s, Exhale for 4s.</p>
+                </div>
+                <button class="action-btn" onclick="completeStep(1)">I am Relaxed & Ready</button>
+            </div>
+
+            <div class="step-card locked" id="step-2">
+                <div class="step-header">
+                    <div class="step-title">Step 2: Anatomical Overview</div>
+                    <div class="badge">Low Exposure</div>
+                </div>
+                <p>Review real dissection anatomy diagrams of the organism while maintaining your breathing pattern.</p>
+                <div class="content-area">
+                    <div class="media-grid">
+                        <div class="media-item">
+                            <h4>Frog Anatomy Diagram</h4>
+                            <img src="./FROG_ANATOMY.jpg" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                        </div>
+                        <div class="media-item">
+                            <h4>Rat Anatomy Diagram</h4>
+                            <img src="./RAT_ANATOMY.webp.jpg" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="action-btn" onclick="completeStep(2)">My Breathing is Steady</button>
+                    <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+                </div>
+            </div>
+
+            <div class="step-card locked" id="step-3">
+                <div class="step-header">
+                    <div class="step-title">Step 3: Clinical Observation</div>
+                    <div class="badge">Moderate Exposure</div>
+                </div>
+                <p>Watch the clinical procedure. Keep the volume low or muted. If you feel panic, look away and click the return button.</p>
+                <div class="content-area">
+                    <div class="media-grid">
+                        <div class="media-item">
+                            <h4>Frog Dissection Video</h4>
+                            <iframe src="https://www.youtube.com/embed/PpNeSWMBY58" title="Frog Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="media-item">
+                            <h4>Rat Dissection Video</h4>
+                            <iframe src="https://www.youtube.com/embed/1BFOYIS1q2s" title="Rat Dissection Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="action-btn" onclick="completeStep(3)">Heart Rate Stable, Proceed</button>
+                    <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+                </div>
+            </div>
+
+            <div class="step-card locked" id="step-4">
+                <div class="step-header">
+                    <div class="step-title">Step 4: Virtual Dissection Simulator</div>
+                    <div class="badge">High Exposure</div>
+                </div>
+                <p>Engage with the digital dissection interface below. Practice the motor control needed for the physical lab. The simulation will open safely in a new tab.</p>
+                <div class="content-area" style="padding: 40px 20px; background-color: #fff;">
+                    
+                    <a href="https://www.labxchange.org/library/items/lb:LabXchange:1760149a:lx_simulation:1" target="_blank" class="launch-sim-btn">
+                        🚀 Launch LabXchange Simulator
+                    </a>
+                    <p style="font-size: 0.95rem; color: var(--text-light); margin-top: 10px;"><em>(Opens in a new tab. Return here once finished.)</em></p>
+                    
+                </div>
+                <div class="btn-group">
+                    <label style="display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 15px; cursor: pointer; padding: 10px; background: #f3f4f6; border-radius: 8px;">
+                        <input type="checkbox" id="sim-check" style="width: 22px; height: 22px; accent-color: var(--primary);" onchange="toggleStep4Btn()">
+                        <strong style="color: var(--text-main);">I have completed the virtual dissection simulation.</strong>
+                    </label>
+                    <button class="action-btn" id="btn-step-4" onclick="completeStep(4)" disabled>Simulation Complete - Proceed</button>
+                    <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
+                </div>
+            </div>
+
+            <div class="step-card locked" id="step-5">
+                <div class="step-header">
+                    <div class="step-title">Step 5: Physical Lab Readiness</div>
+                    <div class="badge">Target Goal</div>
+                </div>
+                <p>You have successfully unlearned the fear response. Approach the physical lab station with confidence using your practiced self-talk.</p>
+                <button class="action-btn" style="padding: 20px; font-size: 1.25rem;" onclick="generateCertificate()">✅ Initiate Physical Lab Session</button>
+            </div>
+
+            <div id="certificate-section">
+                <h2>🏆 Protocol Completed</h2>
+                <p>Please take a screenshot of this digital pass and show it to your lecturer.</p>
+                
+                <div class="cert-details">
+                    <h3 id="cert-name">Student Name</h3>
+                    <p id="cert-id">ID: 123456</p>
+                    <hr style="border: 1px solid rgba(255,255,255,0.2); margin: 15px 0;">
+                    <p id="cert-date">Completed on: [Date]</p>
+                    <p style="font-weight: bold; margin-top: 10px;">Status: CLEARED FOR PHYSICAL LAB</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
+        // Global Variables for Personalization
+        let sName = "";
+        let sID = "";
+
+        // App Initialization
+        function startApp() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            const idInput = document.getElementById('student-id').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+
+            if (nameInput === "" || idInput === "") {
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            // Save data and switch UI
+            sName = nameInput;
+            sID = idInput;
+            
+            document.getElementById('registration-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            
+            // Update UI with student name
+            document.getElementById('display-student-name').innerText = "Session: " + sName;
+        }
+
         // Update Progress Bar
         function updateProgress(step) {
             const progress = (step / 5) * 100;
@@ -496,8 +634,7 @@
                 nextCard.classList.add('active');
                 
                 setTimeout(() => {
-                    // Scroll so the top of the next card is slightly below the sticky progress bar
-                    const yOffset = -60; 
+                    const yOffset = -80; 
                     const y = nextCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
                     window.scrollTo({top: y, behavior: 'smooth'});
                 }, 300);
@@ -510,12 +647,12 @@
         function returnToBreathing() {
             const step1 = document.getElementById('step-1');
             
-            const yOffset = -60; 
+            const yOffset = -80; 
             const y = step1.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({top: y, behavior: 'smooth'});
             
             const circle = document.getElementById('breath-circle');
-            circle.style.boxShadow = "0 0 30px #38a169";
+            circle.style.boxShadow = "0 0 40px rgba(16, 185, 129, 0.8)";
             circle.style.transform = "scale(1.1)";
             
             setTimeout(() => {
@@ -529,6 +666,41 @@
             const checkBox = document.getElementById('sim-check');
             const btn = document.getElementById('btn-step-4');
             btn.disabled = !checkBox.checked;
+        }
+
+        // Final Certificate Generation
+        function generateCertificate() {
+            // Update Step 5 visually
+            const step5 = document.getElementById('step-5');
+            step5.classList.remove('active');
+            step5.classList.add('completed');
+            const btn = step5.querySelector('.action-btn');
+            btn.innerText = "Protocol Cleared ✓";
+            btn.disabled = true;
+            btn.style.backgroundColor = "var(--success)";
+            updateProgress(5);
+
+            // Populate and show certificate
+            const cert = document.getElementById('certificate-section');
+            document.getElementById('cert-name').innerText = sName;
+            document.getElementById('cert-id').innerText = "ID: " + sID;
+            
+            // Format current date and time
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', { 
+                year: 'numeric', month: 'long', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit' 
+            });
+            document.getElementById('cert-date').innerText = "Completed on: " + dateString;
+            
+            cert.style.display = 'block';
+
+            // Scroll to certificate
+            setTimeout(() => {
+                const yOffset = -20; 
+                const y = cert.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }, 400);
         }
     </script>
 </body>
