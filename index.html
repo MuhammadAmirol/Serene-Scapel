@@ -91,7 +91,7 @@
             max-width: 250px;
             font-size: 0.9rem;
             box-shadow: 0 10px 25px rgba(4, 120, 87, 0.3);
-            display: none; /* Hidden on registration screen */
+            display: none;
         }
 
         .assistant-avatar {
@@ -155,10 +155,11 @@
         .badge { background: #dcfce7; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); }
         .content-area { margin: 25px 0; padding: 25px; background: #f9fafb; border-radius: 16px; text-align: center; border: 1px solid #e5e7eb; }
 
-        /* Biofeedback & Quiz Styles */
+        /* Biofeedback & Gamification Styles */
         .bio-input-box { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
         .bio-input-box input { width: 120px; text-align: center; padding: 12px; border: 2px solid var(--primary); border-radius: 10px; font-size: 1.2rem; font-weight: bold; }
-        .quiz-option { display: block; width: 100%; padding: 12px; margin: 8px 0; background: white; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+        .quiz-container { background: white; text-align: left; padding: 20px; border: 2px solid var(--primary); border-radius: 12px; margin-bottom: 15px; }
+        .quiz-option { display: block; width: 100%; padding: 12px; margin: 8px 0; background: white; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: left; }
         .quiz-option:hover { border-color: var(--primary); background: #ecfdf5; }
         .quiz-option.correct { background: var(--primary); color: white; border-color: var(--primary-dark); }
 
@@ -176,7 +177,8 @@
         .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
         button.action-btn { background-color: var(--primary); color: white; border: none; padding: 16px 28px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s ease; }
         button.action-btn:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
-        button.action-btn:disabled { background-color: #d1d5db; cursor: not-allowed; transform: none; }
+        button.action-btn:disabled { background-color: #d1d5db; cursor: not-allowed; transform: none; color: #6b7280; }
+        
         button.emergency-btn { background-color: transparent; color: var(--emergency); border: 2px solid #fca5a5; padding: 14px 24px; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
         button.emergency-btn:hover { background-color: #fef2f2; border-color: var(--emergency); }
 
@@ -190,7 +192,7 @@
 <body>
 
     <audio id="ambient-audio" loop>
-        <source src="./ambient.mp3" type="audio/mpeg">
+        <source src="./ambient.mp3.mp3" type="audio/mpeg">
     </audio>
 
     <div class="assistant-widget">
@@ -253,6 +255,7 @@
                     <div class="badge">Phase 2 / 6</div>
                 </div>
                 <p>Review real dissection anatomy diagrams while maintaining your breathing pattern.</p>
+                
                 <div class="content-area">
                     <div class="media-grid">
                         <div class="media-item">
@@ -266,16 +269,24 @@
                     </div>
                 </div>
                 
-                <div class="content-area" style="background: white; text-align: left; border-color: var(--primary);">
-                    <h4 style="color: var(--primary-dark); margin-top: 0;">🧠 Cognitive Focus Check</h4>
-                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Shift your focus. Based on the diagrams above, which organ is prominently positioned just below the heart in the rat?</p>
-                    <button class="quiz-option" onclick="handleQuiz(this, false)">A) The Kidneys</button>
-                    <button class="quiz-option" onclick="handleQuiz(this, true)">B) The Liver</button>
-                    <button class="quiz-option" onclick="handleQuiz(this, false)">C) The Lungs</button>
+                <div class="quiz-container" id="quiz-1">
+                    <h4 style="color: var(--primary-dark); margin-top: 0;">🧠 Focus Check 1: Rat Anatomy</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Based on the diagram above, which structure separates the thoracic cavity (lungs/heart) from the lower abdominal organs?</p>
+                    <button class="quiz-option" onclick="handleQuiz(this, false, 1)">A) The Liver</button>
+                    <button class="quiz-option" onclick="handleQuiz(this, true, 1)">B) The Diaphragm</button>
+                    <button class="quiz-option" onclick="handleQuiz(this, false, 1)">C) The Kidneys</button>
+                </div>
+
+                <div class="quiz-container" id="quiz-2" style="display: none;">
+                    <h4 style="color: var(--primary-dark); margin-top: 0;">🧠 Focus Check 2: Frog Anatomy</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Looking at the frog diagram, which prominent, curved organ connects directly to the small intestine?</p>
+                    <button class="quiz-option" onclick="handleQuiz(this, false, 2)">A) The Pancreas</button>
+                    <button class="quiz-option" onclick="handleQuiz(this, false, 2)">B) The Liver</button>
+                    <button class="quiz-option" onclick="handleQuiz(this, true, 2)">C) The Stomach</button>
                 </div>
 
                 <div class="btn-group">
-                    <button class="action-btn" id="btn-step-2" onclick="completeStep(2, 'Watch the videos. Remember to breathe if you feel tense.')" disabled>Complete Quiz to Proceed</button>
+                    <button class="action-btn" id="btn-step-2" onclick="completeStep(2, 'Watch the videos. Remember to breathe if you feel tense.')" disabled>Complete Quizzes to Proceed</button>
                     <button class="emergency-btn" onclick="returnToBreathing()">⏸️ Feeling Anxious? Return to Breathing</button>
                 </div>
             </div>
@@ -310,6 +321,7 @@
                     <div class="badge">Phase 4 / 6</div>
                 </div>
                 <p>Before initiating the interactive simulation, check your pulse or smartwatch for 15 seconds. Enter your current Heart Rate (BPM).</p>
+                
                 <div class="content-area">
                     <h4>Current Heart Rate</h4>
                     <div class="bio-input-box">
@@ -318,8 +330,10 @@
                     </div>
                     <p id="bpm-feedback" style="margin-top: 15px; font-weight: bold;"></p>
                 </div>
+                
                 <div class="btn-group">
                     <button class="action-btn" onclick="checkBPM()">Verify Heart Rate</button>
+                    <button class="action-btn" style="background-color: #6b7280;" onclick="completeStep(4, 'Proceeding without heart rate data. Let us begin the simulation.')">Skip (No Smartwatch)</button>
                 </div>
             </div>
 
@@ -374,6 +388,9 @@
         let isAudioPlaying = false;
         const audio = document.getElementById('ambient-audio');
         const assistantBubble = document.getElementById('assistant-text');
+        
+        let quiz1Passed = false;
+        let quiz2Passed = false;
 
         // Audio Control
         function toggleAudio() {
@@ -383,7 +400,7 @@
                 btn.innerText = "🎵 Enable Soundscape";
                 btn.classList.remove('playing');
             } else {
-                audio.play().catch(e => console.log("Upload ambient.mp3 to fix audio play error."));
+                audio.play().catch(e => console.log("Audio play prevented by browser settings."));
                 btn.innerText = "🔊 Soundscape Active";
                 btn.classList.add('playing');
             }
@@ -443,20 +460,31 @@
             updateProgress(stepNum);
         }
 
-        // Quiz Logic
-        function handleQuiz(element, isCorrect) {
+        // Two-Part Quiz Logic
+        function handleQuiz(element, isCorrect, quizNum) {
             const options = element.parentElement.querySelectorAll('.quiz-option');
-            options.forEach(opt => opt.style.pointerEvents = 'none'); // Lock answers
+            options.forEach(opt => opt.style.pointerEvents = 'none'); 
             
             if (isCorrect) {
                 element.classList.add('correct');
-                document.getElementById('btn-step-2').disabled = false;
-                document.getElementById('btn-step-2').innerText = "Quiz Passed - Proceed";
-                updateAssistant("Excellent focus! Correct answer.");
+                
+                if (quizNum === 1) {
+                    quiz1Passed = true;
+                    document.getElementById('quiz-2').style.display = 'block';
+                    updateAssistant("Great job! Now identify the structure in the frog diagram.");
+                } else if (quizNum === 2) {
+                    quiz2Passed = true;
+                }
+                
+                if (quiz1Passed && quiz2Passed) {
+                    document.getElementById('btn-step-2').disabled = false;
+                    document.getElementById('btn-step-2').innerText = "Quizzes Passed - Proceed";
+                    updateAssistant("Excellent focus! You may proceed.");
+                }
             } else {
                 element.style.backgroundColor = "var(--emergency)";
                 element.style.color = "white";
-                updateAssistant("Not quite. Try refreshing your focus on the diagrams.");
+                updateAssistant("Not quite. Review the diagrams and try again.");
                 setTimeout(() => {
                     options.forEach(opt => { opt.style.pointerEvents = 'auto'; opt.style.backgroundColor = ""; opt.style.color = ""; });
                 }, 2000);
