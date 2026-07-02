@@ -46,102 +46,40 @@
             position: relative;
         }
 
-        /* --- Audio & Assistant Controls --- */
-        .top-controls {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .audio-btn {
-            background: var(--card-bg);
-            border: 2px solid #e5e7eb;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-main);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-
+        /* --- Audio Controls --- */
+        .top-controls { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+        .audio-btn { background: var(--card-bg); border: 2px solid #e5e7eb; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--text-main); box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.3s; }
         .audio-btn:hover { border-color: var(--primary); }
         .audio-btn.playing { border-color: var(--primary); color: var(--primary-dark); }
 
-        /* Floating Assistant */
-        .assistant-widget {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            align-items: flex-end;
-            gap: 15px;
-            z-index: 1000;
-            animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        /* --- Floating Assistant (Toggleable) --- */
+        .assistant-widget { position: fixed; bottom: 30px; right: 30px; display: flex; align-items: flex-end; gap: 15px; z-index: 1000; animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .assistant-bubble { background: var(--primary-dark); color: white; padding: 15px 20px; border-radius: 20px 20px 0 20px; max-width: 250px; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(4, 120, 87, 0.3); display: none; position: relative; animation: fadeIn 0.3s ease; }
+        .close-assistant { position: absolute; top: 5px; right: 10px; cursor: pointer; font-weight: bold; color: #a7f3d0; transition: color 0.2s; }
+        .close-assistant:hover { color: white; }
+        .assistant-avatar { width: 60px; height: 60px; background: white; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); cursor: pointer; position: relative; transition: transform 0.2s; }
+        .assistant-avatar:hover { transform: scale(1.05); }
+        .notification-badge { position: absolute; top: -2px; right: -2px; width: 16px; height: 16px; background-color: var(--emergency); border: 2px solid white; border-radius: 50%; display: none; }
 
-        .assistant-bubble {
-            background: var(--primary-dark);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 20px 20px 0 20px;
-            max-width: 250px;
-            font-size: 0.9rem;
-            box-shadow: 0 10px 25px rgba(4, 120, 87, 0.3);
-            display: none;
-        }
+        /* --- Image Zoom Lightbox Modal --- */
+        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; animation: fadeIn 0.3s ease; cursor: zoom-out; }
+        .modal-content { max-width: 95%; max-height: 90%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain; }
+        .zoom-btn { background: var(--primary); color: white; border: none; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; margin-top: -15px; position: relative; z-index: 10; box-shadow: 0 4px 6px rgba(0,0,0,0.15); transition: background 0.2s; }
+        .zoom-btn:hover { background: var(--primary-dark); }
 
-        .assistant-avatar {
-            width: 60px;
-            height: 60px;
-            background: white;
-            border: 3px solid var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* --- Registration Screen --- */
-        #registration-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .reg-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-
+        /* --- General Layout --- */
+        #registration-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; animation: fadeIn 0.8s ease; }
+        .reg-card { background: var(--card-bg); padding: 40px; border-radius: var(--border-radius); box-shadow: 0 20px 40px rgba(0,0,0,0.08); width: 100%; max-width: 500px; text-align: center; }
         .reg-card h1 { color: var(--primary-dark); margin-bottom: 10px; font-size: 2.2rem; }
         .input-group { text-align: left; margin-bottom: 20px; }
         .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
-        .input-group input {
-            width: 100%; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem;
-        }
+        .input-group input { width: 100%; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem; }
         .input-group input:focus { outline: none; border-color: var(--primary); }
 
-        /* --- Main App --- */
         #main-app { display: none; animation: fadeIn 0.8s ease; }
         header { text-align: center; margin-bottom: 30px; background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         header h1 { color: var(--primary-dark); font-size: 2.5rem; margin: 0 0 10px 0; }
         .student-badge { display: inline-block; background: #ecfdf5; color: var(--primary-dark); padding: 8px 20px; border-radius: 30px; font-weight: 600; margin-top: 15px; border: 1px solid #a7f3d0; }
-
-        /* Progress Bar */
         .progress-container { background: #e5e7eb; border-radius: 20px; height: 14px; margin-top: 25px; overflow: hidden; position: sticky; top: 15px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--secondary), var(--primary)); transition: width 0.8s ease; }
 
@@ -155,17 +93,17 @@
         .badge { background: #dcfce7; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); }
         .content-area { margin: 25px 0; padding: 25px; background: #f9fafb; border-radius: 16px; text-align: center; border: 1px solid #e5e7eb; }
 
-        /* Biofeedback & Gamification Styles */
+        /* Gamification & Media */
         .bio-input-box { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
         .bio-input-box input { width: 120px; text-align: center; padding: 12px; border: 2px solid var(--primary); border-radius: 10px; font-size: 1.2rem; font-weight: bold; }
         .quiz-container { background: white; text-align: left; padding: 20px; border: 2px solid var(--primary); border-radius: 12px; margin-bottom: 15px; }
         .quiz-option { display: block; width: 100%; padding: 12px; margin: 8px 0; background: white; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: left; }
         .quiz-option:hover { border-color: var(--primary); background: #ecfdf5; }
         .quiz-option.correct { background: var(--primary); color: white; border-color: var(--primary-dark); }
-
-        /* Media Grid */
         .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-        .media-item img, .media-item iframe { width: 100%; height: 260px; object-fit: contain; background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; }
+        .media-item { display: flex; flex-direction: column; align-items: center; }
+        .media-item img { width: 100%; height: 260px; object-fit: contain; background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; cursor: zoom-in; transition: transform 0.2s; }
+        .media-item iframe { width: 100%; height: 260px; border-radius: 12px; border: 1px solid #e5e7eb; }
 
         /* Breathing Animation */
         .breathing-circle { width: 140px; height: 140px; background: rgba(52, 211, 153, 0.1); border: 6px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem; color: var(--primary-dark); margin: 30px auto; animation: breathe 8s infinite ease-in-out; }
@@ -186,7 +124,7 @@
         #certificate-section { display: none; background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; padding: 40px; border-radius: var(--border-radius); text-align: center; margin-top: 30px; animation: fadeIn 1s ease; }
         .cert-details { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 20px; border-radius: 15px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.2); }
         
-        @media (max-width: 768px) { .media-grid { grid-template-columns: 1fr; } .assistant-widget { bottom: 15px; right: 15px; } .assistant-bubble { display: none !important; } }
+        @media (max-width: 768px) { .media-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -195,11 +133,19 @@
         <source src="./ambient.mp3.mp3" type="audio/mpeg">
     </audio>
 
+    <div id="image-modal" class="modal" onclick="closeModal()">
+        <img class="modal-content" id="modal-img">
+    </div>
+
     <div class="assistant-widget">
         <div class="assistant-bubble" id="assistant-text">
-            Welcome! I am Dr. Serene. I will guide you through this protocol. Take a deep breath.
+            <span class="close-assistant" onclick="toggleAssistant()">✖</span>
+            <span id="assistant-msg">Welcome! Let's begin the protocol.</span>
         </div>
-        <div class="assistant-avatar">👩‍🔬</div>
+        <div class="assistant-avatar" onclick="toggleAssistant()" title="Click for Guidance">
+            👩‍🔬
+            <div class="notification-badge" id="assistant-badge"></div>
+        </div>
     </div>
 
     <div class="container">
@@ -246,7 +192,7 @@
                 <div class="content-area">
                     <div class="breathing-circle" id="breath-circle">Breathe</div>
                 </div>
-                <button class="action-btn" onclick="completeStep(1, 'Review the diagrams carefully without rushing.')">I am Relaxed & Ready</button>
+                <button class="action-btn" onclick="completeStep(1, 'Review the diagrams. Click the Maximize button to inspect them closely.')">I am Relaxed & Ready</button>
             </div>
 
             <div class="step-card locked" id="step-2">
@@ -260,11 +206,13 @@
                     <div class="media-grid">
                         <div class="media-item">
                             <h4>Frog Anatomy Diagram</h4>
-                            <img src="./FROG_ANATOMY.jpg" alt="Frog Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                            <img src="./FROG_ANATOMY.jpg" alt="Frog Anatomy Diagram" onclick="openModal(this.src)" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                            <button class="zoom-btn" onclick="openModal('./FROG_ANATOMY.jpg')">🔍 Maximize</button>
                         </div>
                         <div class="media-item">
                             <h4>Rat Anatomy Diagram</h4>
-                            <img src="./RAT_ANATOMY.webp.jpg" alt="Rat Anatomy Diagram" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                            <img src="./RAT_ANATOMY.webp.jpg" alt="Rat Anatomy Diagram" onclick="openModal(this.src)" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                            <button class="zoom-btn" onclick="openModal('./RAT_ANATOMY.webp.jpg')">🔍 Maximize</button>
                         </div>
                     </div>
                 </div>
@@ -333,7 +281,7 @@
                 
                 <div class="btn-group">
                     <button class="action-btn" onclick="checkBPM()">Verify Heart Rate</button>
-                    <button class="action-btn" style="background-color: #6b7280;" onclick="completeStep(4, 'Proceeding without heart rate data. Let us begin the simulation.')">Skip (No Smartwatch)</button>
+                    <button class="action-btn" style="background-color: #6b7280; margin-top: -5px;" onclick="completeStep(4, 'Proceeding without heart rate data. Let us begin the simulation.')">Skip (No Smartwatch)</button>
                 </div>
             </div>
 
@@ -375,8 +323,12 @@
                     <p id="cert-id">ID</p>
                     <hr style="border: 1px solid rgba(255,255,255,0.2); margin: 15px 0;">
                     <p id="cert-date">Date</p>
-                    <p style="font-weight: bold; margin-top: 10px;">Status: READY FOR LAB</p>
+                    <p style="font-weight: bold; margin-top: 10px; color: #a7f3d0;">Status: READY FOR LAB</p>
                 </div>
+                
+                <button onclick="resetApp()" style="margin-top: 20px; background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 12px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: background 0.3s;">
+                    🏠 Return to Home (Next Student)
+                </button>
             </div>
 
         </div>
@@ -387,10 +339,10 @@
         const TOTAL_STEPS = 6;
         let isAudioPlaying = false;
         const audio = document.getElementById('ambient-audio');
-        const assistantBubble = document.getElementById('assistant-text');
         
         let quiz1Passed = false;
         let quiz2Passed = false;
+        let assistantVisible = false;
 
         // Audio Control
         function toggleAudio() {
@@ -407,13 +359,37 @@
             isAudioPlaying = !isAudioPlaying;
         }
 
-        // Assistant Update
-        function updateAssistant(message) {
-            assistantBubble.style.display = 'block';
-            assistantBubble.innerText = message;
+        // Assistant Logic (Toggleable)
+        function toggleAssistant() {
+            assistantVisible = !assistantVisible;
+            document.getElementById('assistant-text').style.display = assistantVisible ? 'block' : 'none';
+            document.getElementById('assistant-badge').style.display = 'none'; // Clear notification
         }
 
-        // Start App
+        function updateAssistant(message) {
+            document.getElementById('assistant-msg').innerText = message;
+            
+            if (!assistantVisible) {
+                // Show red notification dot and bounce avatar if closed
+                document.getElementById('assistant-badge').style.display = 'block';
+                const avatar = document.querySelector('.assistant-avatar');
+                avatar.style.animation = 'none';
+                void avatar.offsetWidth; // Trigger reflow
+                avatar.style.animation = 'bounceIn 0.5s';
+            }
+        }
+
+        // Image Zoom Lightbox Logic
+        function openModal(imageSrc) {
+            document.getElementById('modal-img').src = imageSrc;
+            document.getElementById('image-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('image-modal').style.display = 'none';
+        }
+
+        // App Initialization
         function startApp() {
             const n = document.getElementById('student-name').value.trim();
             const id = document.getElementById('student-id').value.trim();
@@ -425,15 +401,15 @@
             document.getElementById('registration-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
             document.getElementById('display-student-name').innerText = "Session: " + sName;
-            updateAssistant("Hello " + sName.split(' ')[0] + "! Let's begin with some deep breathing.");
+            
+            // Notify student there is a message waiting
+            updateAssistant("Hello " + sName.split(' ')[0] + "! Let's begin with some deep breathing. Click here for guidance.");
         }
 
-        // Update Progress
         function updateProgress(step) {
             document.getElementById('progress-bar').style.width = ((step / TOTAL_STEPS) * 100) + '%';
         }
 
-        // Complete Step Logic
         function completeStep(stepNum, assistantMsg) {
             const currentCard = document.getElementById('step-' + stepNum);
             currentCard.classList.remove('active');
@@ -484,7 +460,7 @@
             } else {
                 element.style.backgroundColor = "var(--emergency)";
                 element.style.color = "white";
-                updateAssistant("Not quite. Review the diagrams and try again.");
+                updateAssistant("Not quite. Review the diagrams carefully and try again.");
                 setTimeout(() => {
                     options.forEach(opt => { opt.style.pointerEvents = 'auto'; opt.style.backgroundColor = ""; opt.style.color = ""; });
                 }, 2000);
@@ -533,6 +509,70 @@
             document.getElementById('cert-date').innerText = "Completed on: " + new Date().toLocaleString('en-US');
             cert.style.display = 'block';
             setTimeout(() => { window.scrollTo({top: cert.getBoundingClientRect().top + window.pageYOffset - 20, behavior: 'smooth'}); }, 400);
+        }
+
+        // Master Reset App (Home Button)
+        function resetApp() {
+            // Reset Data
+            sName = ""; sID = "";
+            quiz1Passed = false; quiz2Passed = false;
+            
+            // Reset Inputs
+            document.getElementById('student-name').value = '';
+            document.getElementById('student-id').value = '';
+            document.getElementById('bpm-input').value = '';
+            document.getElementById('bpm-feedback').innerText = '';
+            document.getElementById('sim-check').checked = false;
+            document.getElementById('error-msg').style.display = 'none';
+
+            // Reset UI Sections
+            document.getElementById('certificate-section').style.display = 'none';
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('registration-screen').style.display = 'flex';
+
+            // Reset Steps
+            for(let i=1; i<=6; i++) {
+                let card = document.getElementById('step-'+i);
+                card.classList.remove('completed', 'active');
+                card.classList.add('locked');
+                
+                let btn = card.querySelector('.action-btn');
+                if(btn) {
+                    btn.disabled = false;
+                    btn.style.backgroundColor = "var(--primary)";
+                    if(i===1) btn.innerText = "I am Relaxed & Ready";
+                    if(i===2) { btn.innerText = "Complete Quizzes to Proceed"; btn.disabled = true; }
+                    if(i===3) btn.innerText = "Videos Completed, Proceed";
+                    if(i===4) btn.innerText = "Verify Heart Rate";
+                    if(i===5) { btn.innerText = "Simulation Complete"; btn.disabled = true; }
+                    if(i===6) btn.innerText = "✅ Initiate Physical Lab Session";
+                }
+                
+                let eBtn = card.querySelector('.emergency-btn');
+                if(eBtn) eBtn.style.display = 'flex';
+            }
+            
+            // Re-activate Step 1
+            document.getElementById('step-1').classList.remove('locked');
+            document.getElementById('step-1').classList.add('active');
+            
+            // Reset Quizzes
+            document.getElementById('quiz-2').style.display = 'none';
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.style.pointerEvents = 'auto';
+                opt.style.backgroundColor = '';
+                opt.style.color = '';
+                opt.classList.remove('correct');
+            });
+
+            // Reset Progress and Assistant
+            updateProgress(0);
+            assistantVisible = false;
+            document.getElementById('assistant-text').style.display = 'none';
+            document.getElementById('assistant-badge').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo(0,0);
         }
     </script>
 </body>
