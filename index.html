@@ -6,8 +6,6 @@
     <title>SereneScalpel | Ultimate Digital Desensitization</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-
     <style>
         :root {
             --primary: #10b981; 
@@ -48,6 +46,12 @@
         .badge-title { color: var(--primary-dark); font-size: 1.8rem; font-weight: 700; margin: 0; }
         .badge-subtitle { color: var(--text-light); font-size: 1rem; margin-top: 5px; }
 
+        /* --- Image Zoom Lightbox Modal --- */
+        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; animation: fadeIn 0.3s ease; cursor: zoom-out; }
+        .modal-content { max-width: 95%; max-height: 90%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain; }
+        .zoom-btn { background: var(--primary); color: white; border: none; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; margin-top: -15px; position: relative; z-index: 10; box-shadow: 0 4px 6px rgba(0,0,0,0.15); transition: background 0.2s; }
+        .zoom-btn:hover { background: var(--primary-dark); }
+
         /* --- Registration Screen --- */
         #registration-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; animation: fadeIn 0.8s ease; margin-top: 20px; }
         .reg-card { background: var(--card-bg); padding: 40px; border-radius: var(--border-radius); box-shadow: 0 20px 40px rgba(0,0,0,0.08); width: 100%; max-width: 550px; text-align: center; border-top: 8px solid var(--primary); }
@@ -83,11 +87,11 @@
         /* Pulsing Mantra Anchor */
         .pulsing-mantra { display: none; font-size: 1.1rem; font-weight: 600; color: var(--primary-dark); background: #ecfdf5; padding: 15px; border-radius: 12px; border: 2px dashed var(--secondary); margin-top: 20px; animation: softPulse 3s infinite ease-in-out; }
 
-        /* WebAR & Media */
+        /* Media */
         .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
         .media-item { display: flex; flex-direction: column; align-items: center; }
-        model-viewer, .media-item iframe { width: 100%; height: 280px; background: #fff; border-radius: 12px; border: 2px solid #e5e7eb; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        model-viewer { --poster-color: transparent; }
+        .media-item img { width: 100%; height: 260px; object-fit: contain; background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; cursor: zoom-in; transition: transform 0.2s; }
+        .media-item iframe { width: 100%; height: 260px; border-radius: 12px; border: 1px solid #e5e7eb; }
 
         /* Quizzes */
         .quiz-container { background: white; text-align: left; padding: 20px; border: 2px solid var(--primary); border-radius: 12px; margin-bottom: 15px; }
@@ -130,6 +134,10 @@
         <source src="./ambient.mp3.mp3" type="audio/mpeg">
     </audio>
 
+    <div id="image-modal" class="modal" onclick="closeModal()">
+        <img class="modal-content" id="modal-img">
+    </div>
+
     <div id="badge-overlay">
         <div class="badge-content">
             <div class="badge-icon" id="badge-icon">🏆</div>
@@ -151,7 +159,7 @@
     <div class="container">
         
         <div class="top-controls">
-            <button class="audio-btn" id="audio-toggle" onclick="toggleAudio()">
+            <button class="audio-btn" id="audio-toggle-top" onclick="toggleAudio()">
                 🎵 Enable Soundscape
             </button>
         </div>
@@ -205,27 +213,27 @@
                 <div class="content-area">
                     <div class="breathing-circle" id="breath-circle">Breathe</div>
                 </div>
-                <button class="action-btn" onclick="completeStep(1, '🧘 The Zen Master', 'Mastered breathing techniques.', 'Interact with the 3D models below. You can drag to rotate them!')">I am Relaxed & Ready</button>
+                <button class="action-btn" onclick="completeStep(1, '🧘 The Zen Master', 'Mastered breathing techniques.', 'Review the diagrams. Click the Maximize button to inspect them closely.')">I am Relaxed & Ready</button>
             </div>
 
             <div class="step-card locked" id="step-2">
                 <div class="step-header">
-                    <div class="step-title">Step 2: Interactive 3D Anatomy</div>
+                    <div class="step-title">Step 2: Anatomical Overview</div>
                     <div class="badge">Phase 2 / 6</div>
                 </div>
-                <p>Explore the anatomical structures. Drag to rotate the models (or view the diagrams) while maintaining your breathing pattern.</p>
+                <p>Explore the anatomical structures. Click to enlarge the diagrams while maintaining your breathing pattern.</p>
                 
                 <div class="content-area">
                     <div class="media-grid">
                         <div class="media-item">
-                            <h4>Frog Anatomy</h4>
-                            <model-viewer src="./FROG_3D.glb" poster="./FROG_ANATOMY.jpg" alt="Frog 3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
-                            <p style="font-size:0.8rem; color:var(--text-light);">(Drag to rotate)</p>
+                            <h4>Frog Anatomy Diagram</h4>
+                            <img src="./FROG_ANATOMY.jpg" alt="Frog Anatomy Diagram" onclick="openModal(this.src)" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                            <button class="zoom-btn" onclick="openModal('./FROG_ANATOMY.jpg')">🔍 Maximize</button>
                         </div>
                         <div class="media-item">
-                            <h4>Rat Anatomy</h4>
-                            <model-viewer src="./RAT_3D.glb" poster="./RAT_ANATOMY.webp.jpg" alt="Rat 3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
-                            <p style="font-size:0.8rem; color:var(--text-light);">(Drag to rotate)</p>
+                            <h4>Rat Anatomy Diagram</h4>
+                            <img src="./RAT_ANATOMY.webp.jpg" alt="Rat Anatomy Diagram" onclick="openModal(this.src)" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Found'">
+                            <button class="zoom-btn" onclick="openModal('./RAT_ANATOMY.webp.jpg')">🔍 Maximize</button>
                         </div>
                     </div>
                 </div>
@@ -259,6 +267,14 @@
                 </div>
                 <p>Watch the clinical procedure. Keep the volume low or muted. Focus on your mantra if needed.</p>
                 <div class="content-area">
+                    
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <button class="audio-btn" id="audio-toggle-step3" onclick="toggleAudio()" style="margin: 0 auto;">
+                            🎵 Toggle Soundscape for Videos
+                        </button>
+                        <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 5px;">Use this to prevent audio clashing with the YouTube videos.</p>
+                    </div>
+
                     <div class="media-grid">
                         <div class="media-item">
                             <h4>Frog Dissection Video</h4>
@@ -371,11 +387,30 @@
         let quiz1Passed = false, quiz2Passed = false;
         let assistantVisible = false;
 
-        // Audio
+        // Image Zoom Lightbox Logic
+        function openModal(imageSrc) {
+            document.getElementById('modal-img').src = imageSrc;
+            document.getElementById('image-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('image-modal').style.display = 'none';
+        }
+
+        // Dual Audio Control Sync
         function toggleAudio() {
-            const btn = document.getElementById('audio-toggle');
-            if (isAudioPlaying) { audio.pause(); btn.innerText = "🎵 Enable Soundscape"; btn.classList.remove('playing'); } 
-            else { audio.play().catch(e => console.log("Audio play blocked.")); btn.innerText = "🔊 Soundscape Active"; btn.classList.add('playing'); }
+            const btnTop = document.getElementById('audio-toggle-top');
+            const btnStep3 = document.getElementById('audio-toggle-step3');
+            
+            if (isAudioPlaying) { 
+                audio.pause(); 
+                btnTop.innerText = "🎵 Enable Soundscape"; btnTop.classList.remove('playing');
+                if (btnStep3) { btnStep3.innerText = "🎵 Resume Soundscape"; btnStep3.classList.remove('playing'); }
+            } else { 
+                audio.play().catch(e => console.log("Audio play blocked.")); 
+                btnTop.innerText = "🔊 Soundscape Active"; btnTop.classList.add('playing');
+                if (btnStep3) { btnStep3.innerText = "🔊 Soundscape Active"; btnStep3.classList.add('playing'); }
+            }
             isAudioPlaying = !isAudioPlaying;
         }
 
@@ -401,7 +436,7 @@
             document.getElementById('badge-subtitle').innerText = subtitle;
             const overlay = document.getElementById('badge-overlay');
             overlay.style.display = 'flex';
-            setTimeout(() => { overlay.style.display = 'none'; }, 3500); // Hide after 3.5 seconds
+            setTimeout(() => { overlay.style.display = 'none'; }, 3500);
         }
 
         // Initialization
@@ -418,7 +453,7 @@
             // Set Personalized Mantras
             document.querySelectorAll('.mantra-text').forEach(el => {
                 el.innerText = `"${sMantra}"`;
-                el.style.display = "block"; // Make visible
+                el.style.display = "block";
             });
 
             document.getElementById('registration-screen').style.display = 'none';
@@ -446,12 +481,19 @@
             // Unlock next
             const nextStep = stepNum + 1;
             const nextCard = document.getElementById('step-' + nextStep);
+            
+            // Auto-Pause Feature for Step 3
+            if (nextStep === 3 && isAudioPlaying) {
+                toggleAudio(); // Automatically pauses
+                assistantMsg = "I've paused the soundscape automatically so you can focus on the video audio.";
+            }
+
             if (nextCard) {
                 nextCard.classList.remove('locked'); nextCard.classList.add('active');
                 setTimeout(() => { window.scrollTo({top: nextCard.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth'}); }, 300);
             }
             
-            if (assistantMsg) setTimeout(() => { updateAssistant(assistantMsg); }, 3500); // Delay assistant until after badge
+            if (assistantMsg) setTimeout(() => { updateAssistant(assistantMsg); }, 3500);
             updateProgress(stepNum);
         }
 
@@ -467,7 +509,7 @@
                     const b = document.getElementById('btn-step-2'); b.disabled = false; b.innerText = "Quizzes Passed - Proceed"; updateAssistant("Excellent focus!");
                 }
             } else {
-                element.style.backgroundColor = "var(--emergency)"; element.style.color = "white"; updateAssistant("Not quite. Review the models and try again.");
+                element.style.backgroundColor = "var(--emergency)"; element.style.color = "white"; updateAssistant("Not quite. Check the diagrams and try again.");
                 setTimeout(() => { options.forEach(opt => { opt.style.pointerEvents = 'auto'; opt.style.backgroundColor = ""; opt.style.color = ""; }); }, 2000);
             }
         }
@@ -526,6 +568,9 @@
         // Master Reset App
         function resetApp() {
             sName = ""; sID = ""; sMantra = ""; quiz1Passed = false; quiz2Passed = false;
+            
+            // Stop audio if playing
+            if(isAudioPlaying) toggleAudio();
             
             // Reset Inputs
             document.querySelectorAll('input[type="text"], input[type="number"]').forEach(el => el.value = '');
